@@ -14,13 +14,13 @@ def main():
     print(task_environment)
 
     while task_environment.state != {'A': 'Clean', 'B': 'Clean'}:
-        response: str = reflex_vacuum_agent(location_status).value
+        action: str = reflex_vacuum_agent(location_status).value
 
-        if response == 'Suck':
+        if action == 'Suck':
             task_environment.state[location] = 'Clean'
-        elif response == 'Right':
+        elif action == 'Right':
             location = 'B'
-        elif response == 'Left':
+        elif action == 'Left':
             location = 'A'
 
         location_status.name = location
