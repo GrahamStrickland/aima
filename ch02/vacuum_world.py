@@ -9,7 +9,7 @@ def main():
     print("Exercise 11: Reflex Vacuum Agent")
 
     task_environment = Environment('VacuumWorld', {'A': 'Clean', 'B': 'Clean'})
-    location = 'A'
+    location: str = 'A'
     location_status = Sensor(name=location, value=task_environment.state[location])
     print(task_environment)
 
