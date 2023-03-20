@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 from modules.actuator import Actuator
-from modules.sensor import Sensor 
+from modules.sensor import Sensor
 
 
-def reflex_vacuum_agent(location_status: Sensor) -> str:
+def reflex_vacuum_agent(location_status: Sensor) -> Actuator:
     location: str = location_status.name
     status: str = location_status.value
 

@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 from agents.reflex_vacuum_agent import reflex_vacuum_agent
-from modules.actuator import Actuator
 from modules.environment import Environment
 from modules.sensor import Sensor 
 
@@ -8,7 +7,7 @@ from modules.sensor import Sensor
 def main():
     print("Exercise 11: Reflex Vacuum Agent")
 
-    task_environment = Environment('VacuumWorld', {'A': 'Clean', 'B': 'Clean'})
+    task_environment = Environment('VacuumWorld', {'A': 'Dirty', 'B': 'Dirty'})
     location: str = 'A'
     location_status = Sensor(name=location, value=task_environment.state[location])
     print(task_environment)
