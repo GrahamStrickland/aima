@@ -7,7 +7,7 @@ from modules.sensor import Sensor
 
 
 def main():
-    print("Exercise 12: Simple Reflex Agent Scoring")
+    print("Exercise 12: Simple Reflex Agent Scoring\n")
 
     task_environment = Environment('VacuumWorld', {'A': 'Dirty', 'B': 'Dirty'})
     states: list[str] = ['Dirty', 'Clean']
@@ -16,18 +16,19 @@ def main():
         deepcopy(task_environment) for _ in range(len(states)**2 * len(locations))
     ]
     scores: list[int] = []
-    location = locations[0]
 
     for i in range(1, len(task_environments)):
-        if i % 2 == 0:
-            task_environments[i].state = {'A': states[(i//2) >> 1], 'B': states[(i//2) & 1]}
+        task_environments[i].state = {'A': states[(i//2) >> 1], 'B': states[(i//2) & 1]}
 
-    while len(scores) < len(task_environments):
+    i = 0
+    for task_environment in task_environments:
         num_turns = 0
-        location = locations[1] if location == locations[0] else locations[0]
+        location = locations[i%2]
 
         location_status = Sensor(name=location, value=task_environment.state[location])
-        print(task_environment)
+        print(f"Simulation {i+1}")
+        print(f"Starting task environment: {task_environment.state}")
+        print(f"Agent start location: {location}")
 
         while task_environment.state != {'A': 'Clean', 'B': 'Clean'}:
             action: str = reflex_vacuum_agent(location_status).value
@@ -42,10 +43,11 @@ def main():
 
             location_status.name = location
             location_status.value = task_environment.state[location]
-            print(task_environment)
+            print(f"After turn {num_turns}: {task_environment.state}")
 
-        print("Performance score for configuration: ", num_turns)
+        print(f"Performance score for configuration: {num_turns}\n")
         scores.append(num_turns)
+        i += 1
 
     print("Overall average score: ", sum(scores) / len(scores))
 
