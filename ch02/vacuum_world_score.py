@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from copy import deepcopy
 
-from agents.reflex_vacuum_agent import reflex_vacuum_agent
+from agents.simple_reflex_agent import SimpleReflexAgent
 from modules.environment import Environment
 from modules.sensor import Sensor
 
@@ -9,6 +9,7 @@ from modules.sensor import Sensor
 def main():
     print("Exercise 12: Simple Reflex Agent Scoring\n")
 
+    agent = SimpleReflexAgent()
     task_environment = Environment('VacuumWorld', {'A': 'Dirty', 'B': 'Dirty'})
     states: list[str] = ['Dirty', 'Clean']
     locations: list[str] = ['A', 'B']
@@ -23,7 +24,7 @@ def main():
     i = 0
     for task_environment in task_environments:
         num_turns = 0
-        location = locations[i%2]
+        location = locations[i % 2]
 
         location_status = Sensor(name=location, value=task_environment.state[location])
         print(f"Simulation {i+1}")
@@ -31,7 +32,7 @@ def main():
         print(f"Agent start location: {location}")
 
         while task_environment.state != {'A': 'Clean', 'B': 'Clean'}:
-            action: str = reflex_vacuum_agent(location_status).value
+            action: str = agent.get_action(location_status)
             num_turns += 1
 
             if action == 'Suck':
