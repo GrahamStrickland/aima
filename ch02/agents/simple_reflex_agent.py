@@ -1,20 +1,19 @@
 #!/usr/bin/env python3
 from modules.actuator import Actuator
-from modules.environment import Environment
 from modules.sensor import Sensor
 
 
 class SimpleReflexAgent:
     def __init__(self):
-        self.rules = {'Dirty': 'Suck',
-                      'Clean': {
-                          'A': 'Right',
-                          'B': 'Left'
-                          }
-                      }
+        self._rules = {'Dirty': 'Suck',
+                       'Clean': {
+                           'A': 'Right',
+                           'B': 'Left'
+                           }
+                       }
 
     @staticmethod
-    def _interpret_input(percept: Sensor) -> Environment:
+    def _interpret_input(percept: Sensor) -> dict:
         return {percept.name: percept.value}
 
     def _rule_match(self, state: dict[str, str]) -> Actuator:
@@ -22,9 +21,9 @@ class SimpleReflexAgent:
 
         for k, v in state.items():
             if v == 'Dirty':
-                action = self.rules[v]
+                action = self._rules[v]
             else:
-                action = self.rules['Clean'][k]
+                action = self._rules['Clean'][k]
             break
 
         return Actuator(name='action', value=action)

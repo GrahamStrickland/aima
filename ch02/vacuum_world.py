@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 from agents.reflex_vacuum_agent import reflex_vacuum_agent
 from modules.environment import Environment
-from modules.sensor import Sensor 
+from modules.sensor import Sensor
 
 
+# noinspection DuplicatedCode
 def main():
     print("Exercise 11: Reflex Vacuum Agent")
 
@@ -21,6 +22,8 @@ def main():
             location = 'B'
         elif action == 'Left':
             location = 'A'
+        else:
+            raise SyntaxError("Invalid action string passed to agent.")
 
         location_status.name = location
         location_status.value = task_environment.state[location]

@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 from copy import deepcopy
 
-from agents.simple_reflex_agent import SimpleReflexAgent
+from agents.model_based_reflex_agent import ModelBasedReflexAgent
 from modules.environment import Environment
 from modules.sensor import Sensor
 
 
+# noinspection DuplicatedCode
 def main():
-    print("Exercise 12: Simple Reflex Agent Scoring\n")
+    print("Exercise 13: Vacuum Motion Penalty\n")
 
-    agent = SimpleReflexAgent()
+    agent = ModelBasedReflexAgent()
     task_environment = Environment('VacuumWorld', {'A': 'Dirty', 'B': 'Dirty'})
     states: list[str] = ['Dirty', 'Clean']
     locations: list[str] = ['A', 'B']
