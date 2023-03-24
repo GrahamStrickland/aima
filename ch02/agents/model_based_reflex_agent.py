@@ -6,9 +6,12 @@ from modules.sensor import Sensor
 
 class ModelBasedReflexAgent:
     def __init__(self):
-        self._state = Environment('None', {})
-        self._transition_model = {}
-        self._sensor_model = {}
+        self._state = {'Environment': Environment('VacuumWorld', {'A': None, 'B': None}),
+                       'Points': 0}
+        self._transition_model = {'Suck': 0,
+                                  'Right': -1,
+                                  'Left': -1}
+        self._sensor_model = Environment('VacuumWorld', {'A': None, 'B': None})
         self._rules = {'Dirty': 'Suck',
                        'Clean': {
                            'A': 'Right',
@@ -17,11 +20,13 @@ class ModelBasedReflexAgent:
                        }
         self._action = Actuator('action', 'none')
 
+    def get_action(self, percept: Sensor) -> str:
+        self._update_state(percept)
+        self._rule_match()
+        return self._action.value
+
     def _update_state(self, percept: Sensor) -> None:
-        pass
+        self._sensor_model.state[percept.name] = percept.value
 
     def _rule_match(self) -> None:
         pass
-
-    def get_action(self, percept: Sensor) -> str:
-        return self._action.value

@@ -12,6 +12,13 @@ class SimpleReflexAgent:
                            }
                        }
 
+    def get_action(self, percept: Sensor) -> Actuator:
+        state: dict[str, str] = self._interpret_input(percept)
+        rule: Actuator = self._rule_match(state)
+        action: str = rule.value
+
+        return action
+
     @staticmethod
     def _interpret_input(percept: Sensor) -> dict:
         return {percept.name: percept.value}
@@ -27,10 +34,3 @@ class SimpleReflexAgent:
             break
 
         return Actuator(name='action', value=action)
-
-    def get_action(self, percept: Sensor) -> Actuator:
-        state: dict[str, str] = self._interpret_input(percept)
-        rule: Actuator = self._rule_match(state)
-        action: str = rule.value
-
-        return action
