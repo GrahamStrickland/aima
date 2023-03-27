@@ -50,7 +50,9 @@ def main():
             print(f"After turn {num_turns}: {task_environment.state}")
 
         print(f"Performance score for configuration: {num_turns}\n")
-        scores.append(num_turns)
+
+        score: int = num_turns - agent.get_points()
+        scores.append(score if score >= 0 else 0)
         i += 1
 
     print("Overall average score: ", sum(scores) / len(scores))
