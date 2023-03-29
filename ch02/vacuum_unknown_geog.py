@@ -7,7 +7,29 @@ from modules.environment import Environment
 from modules.sensor import Sensor
 
 
-# noinspection DuplicatedCode
+def get_task_environments(possible_states: list[str], possible_locations: list[list[str]]) -> list[Environment]:
+    state = dict((location, None) for locations in possible_locations for location in locations)
+
+    num_locations = len([location for locations in possible_locations for location in locations])
+
+    task_environment = Environment('VacuumWorld', state)
+    task_environments: list[Environment] = [
+        deepcopy(task_environment) for _ in range(len(possible_states)**num_locations)
+    ]
+
+    return insert_random_states(possible_states, task_environments)
+
+
+def insert_random_states(
+        possible_states: list[str], task_environments: list[Environment]
+) -> list[Environment]:
+    for task_environment in task_environments:
+        for location, _ in task_environment.state.items():
+            task_environment.state[location] = possible_states[randint(1, len(possible_states))]
+
+    return task_environments
+
+
 def main():
     print("Exercise 14: Vacuum Unknown Geography\n")
 
@@ -15,18 +37,8 @@ def main():
     possible_states = ['Dirty', 'Clean', 'Blocked']
     possible_locations = [['A', 'B'],
                           ['C', 'D']]
-    state = dict((location, None) for location in zip(possible_locations))
-    task_environment = Environment('VacuumWorld', state)
-    task_environments: list[Environment] = [
-        deepcopy(task_environment) for _ in range(len(possible_states)**len(possible_locations)**2)
-    ]
 
-    for task_environment in task_environments:
-        for row_states in task_environment.state:
-            for state in row_states:
-                key, _ = state.items()
-                state[key] = possible_states[randint(1, 3)]
-
+    task_environments: list[Environment] = get_task_environments(possible_states, possible_locations)
     scores: list[int] = []
 
     for task_environment in task_environments:
@@ -53,7 +65,6 @@ def main():
 
         score: int = num_turns - agent.get_points()
         scores.append(score if score >= 0 else 0)
-        i += 1
 
     print("Overall average score: ", sum(scores) / len(scores))
 
