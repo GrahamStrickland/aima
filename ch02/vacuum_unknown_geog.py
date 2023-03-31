@@ -2,7 +2,7 @@
 from copy import deepcopy
 from random import randint
 
-from agents.model_based_reflex_agent import ModelBasedReflexAgent
+from agents.randomized_reflex_agent import RandomizedReflexAgent
 from modules.environment import Environment
 from modules.sensor import Sensor
 
@@ -30,10 +30,29 @@ def insert_random_states(
     return task_environments
 
 
+def get_ideal_state(current_state: dict[str, str]) -> dict[str, str]:
+    for location, value in current_state.items():
+        if value != 'Blocked':
+            current_state[location] = 'Clean'
+
+    return current_state 
+
+
+def get_random_location(possible_locations: list[list[str]], state: dict[str, str]) -> str:
+    row_num = 0
+    col_num = 0
+
+    while state[possible_locations[row_num][col_num]] != 'Blocked':
+        randint(range(len(possible_locations[0])))
+        randint(range(len(possible_locations)))
+
+    return possible_locations[row_num][col_num]
+
+
 def main():
     print("Exercise 14: Vacuum Unknown Geography\n")
 
-    agent = ModelBasedReflexAgent()
+    agent = RandomizedReflexAgent()
     possible_states = ['Dirty', 'Clean', 'Blocked']
     possible_locations = [['A', 'B'],
                           ['C', 'D']]
@@ -42,23 +61,34 @@ def main():
     scores: list[int] = []
 
     for task_environment in task_environments:
-        num_turns = 0
-        location = possible_locations[randint(range(len(possible_locations)**2))]
+        ideal_state = get_ideal_state(task_environment.state)
 
+        location = get_random_location(possible_locations, task_environment.state)
         location_status = Sensor(name=location, value=task_environment.state[location])
 
-        while task_environment.state != {'A': 'Clean', 'B': 'Clean'}:
+        num_turns = 0
+        while task_environment.state != ideal_state:
             action: str = agent.get_action(location_status)
             num_turns += 1
 
             if action == 'Suck':
                 task_environment.state[location] = 'Clean'
-            elif action == 'Right':
-                location = 'B'
-            elif action == 'Left':
-                location = 'A'
             else:
-                raise SyntaxError("Invalid action string passed to agent.")
+                if action == 'Right':
+                    if col_num + 1 < len(possible_locations):
+                        col_num += 1
+                elif action == 'Left':
+                    if col_num - 1 > 0:
+                        col_num -= 1
+                elif action == 'Up':
+                    if row_num - 1> 0:
+                        row_num -= 1
+                elif action == 'Down':
+                    if row_num + 1 > len(possible_locations[0]):
+                        row_num += 1
+                else:
+                    raise SyntaxError("Invalid action string passed to agent.")
+                location = possible_locations[row_num][col_num]
 
             location_status.name = location
             location_status.value = task_environment.state[location]
