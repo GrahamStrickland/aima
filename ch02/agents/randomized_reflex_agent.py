@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from random import randint
+
 from modules.actuator import Actuator
 from modules.environment import Environment
 from modules.sensor import Sensor
@@ -6,39 +8,28 @@ from modules.sensor import Sensor
 
 class RandomizedReflexAgent:
     def __init__(self):
-        self._state = {'Environment': Environment('VacuumWorld', {'A': None, 'B': None}),
-                       'Points': 0}
-        self._transition_model = {'Suck': 0,
-                                  'Right': -1,
-                                  'Left': -1}
-        self._sensor_model = Sensor(None, None)
         self._rules = {'Dirty': 'Suck',
-                       'Clean': {
-                           'A': 'Right',
-                           'B': 'Left'
-                           }
-                       }
-        self._action = Actuator('action', None)
+                       'Clean': ['Left', 'Right', 'Up', 'Down']}
 
-    def get_action(self, percept: Sensor) -> str:
-        self._update_state(percept)
-        self._rule_match()
-        return self._action.value
+    def get_action(self, percept: Sensor) -> Actuator:
+        state: dict[str, str] = self._interpret_input(percept)
+        rule: Actuator = self._rule_match(state)
+        action: str = rule.value
 
-    def get_points(self) -> int:
-        return self._state['Points']
+        return action
 
-    def _update_state(self, percept: Sensor) -> None:
-        self._sensor_model = percept
-        self._state['Environment'].state[self._sensor_model.name] = self._sensor_model.value
+    @staticmethod
+    def _interpret_input(percept: Sensor) -> dict:
+        return {percept.name: percept.value}
 
-    def _rule_match(self) -> None:
-        action = ""
+    def _rule_match(self, state: dict[str, str]) -> Actuator:
+        action: str = ''
 
-        if self._state['Environment'].state[self._sensor_model.name] == 'Dirty':
-            action = self._rules[self._sensor_model.value]
-        else:
-            action = self._rules[self._sensor_model.value][self._sensor_model.name]
+        for k, v in state.items():
+            if v == 'Dirty':
+                action = self._rules[v]
+            else:
+                action = self._rules['Clean'][randint(0, len(self._rules['Clean']) - 1)]
+            break
 
-        self._action.value = action
-        self._state['Points'] += self._transition_model[self._action.value]
+        return Actuator(name='action', value=action)
