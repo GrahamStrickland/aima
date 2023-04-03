@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from copy import deepcopy
 from random import randint
+from pdb import set_trace
 
 from agents.randomized_reflex_agent import RandomizedReflexAgent
 from modules.environment import Environment
@@ -14,7 +15,7 @@ def get_task_environments(possible_states: list[str], possible_locations: list[l
 
     task_environment = Environment('VacuumWorld', state)
     task_environments: list[Environment] = [
-        deepcopy(task_environment) for _ in range(len(possible_states)**num_locations)
+        deepcopy(task_environment) for _ in range(num_locations**len(possible_states))
     ]
 
     return insert_random_states(possible_states, task_environments)
@@ -41,18 +42,18 @@ def get_ideal_state(current_state: dict[str, str]) -> dict[str, str]:
 
     for location, value in ideal_state.items():
         if value != 'Blocked':
-            current_state[location] = 'Clean'
+            ideal_state[location] = 'Clean'
 
     return ideal_state
 
 
 def get_random_location(possible_locations: list[list[str]], state: dict[str, str]) -> tuple[int]:
-    row_num = 0
-    col_num = 0
+    row_num = randint(0, len(possible_locations[0]) - 1)
+    col_num = randint(0, len(possible_locations) - 1)
 
-    while state[possible_locations[row_num][col_num]] != 'Blocked':
-        randint(0, len(possible_locations[0]) - 1)
-        randint(0, len(possible_locations) - 1)
+    while state[possible_locations[row_num][col_num]] == 'Blocked':
+        row_num = randint(0, len(possible_locations[0]) - 1)
+        col_num = randint(0, len(possible_locations) - 1)
 
     return (row_num, col_num)
 
@@ -79,35 +80,42 @@ def main():
 
         num_turns = 0
         while task_environment.state != ideal_state:
-            print(f"Turn {num_turns}: {task_environment}")
+            set_trace()
+
             action: str = agent.get_action(location_status)
-            num_turns += 1
+
+            new_row_num, new_col_num = row_num, col_num
             new_location = location
+            num_turns += 1
 
             if action == 'Suck':
                 task_environment.state[location] = 'Clean'
             else:
                 if action == 'Right':
                     if col_num + 1 < len(possible_locations):
-                        new_location = possible_locations[row_num][col_num+1]
+                        new_col_num = col_num + 1
                 elif action == 'Left':
-                    if col_num - 1 > 0:
-                        new_location = possible_locations[row_num][col_num-1]
+                    if col_num - 1 >= 0:
+                        new_col_num = col_num - 1
                 elif action == 'Up':
-                    if row_num - 1 > 0:
-                        new_location = possible_locations[row_num-1][col_num]
+                    if row_num - 1 >= 0:
+                        new_row_num = row_num - 1
                 elif action == 'Down':
                     if row_num + 1 > len(possible_locations[0]):
-                        new_location = possible_locations[row_num+1][col_num]
+                        new_row_num = row_num + 1
                 else:
                     raise SyntaxError("Invalid action string passed to agent.")
+
+                new_location = possible_locations[new_row_num][new_col_num]
+
                 if task_environment.state[new_location] != 'Blocked':
                     location = new_location 
+                    row_num = new_row_num
+                    col_num = new_col_num
 
             location_status.name = location
             location_status.value = task_environment.state[location]
 
-        print("Number of turns: ", num_turns)
         scores.append(num_turns)
 
     print("Overall average score: ", sum(scores) / len(scores))
