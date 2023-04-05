@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 from copy import deepcopy
 from random import randint
-from pdb import set_trace
 
 from agents.randomized_reflex_agent import RandomizedReflexAgent
 from modules.environment import Environment
 from modules.sensor import Sensor
 
 
-def get_task_environments(possible_states: list[str], possible_locations: list[list[str]]) -> list[Environment]:
+def get_task_environments(
+        possible_states: list[str], 
+        possible_locations: list[list[str]],
+        max_blocked: int
+) -> list[Environment]:
     state = dict((location, None) for locations in possible_locations for location in locations)
 
     num_locations = len([location for locations in possible_locations for location in locations])
@@ -18,21 +21,25 @@ def get_task_environments(possible_states: list[str], possible_locations: list[l
         deepcopy(task_environment) for _ in range(num_locations**len(possible_states))
     ]
 
-    return insert_random_states(possible_states, task_environments)
+    return insert_random_states(possible_states, task_environments, max_blocked)
 
 
 def insert_random_states(
-        possible_states: list[str], task_environments: list[Environment]
+        possible_states: list[str], 
+        task_environments: list[Environment],
+        max_blocked: int
 ) -> list[Environment]:
-    blocked_task_environment = deepcopy(task_environments[0])
-    for location, _ in blocked_task_environment.state.items():
-        blocked_task_environment.state[location] = 'Blocked'
+    num_blocked = 0
 
     for i in range(len(task_environments)):
         for location, _ in task_environments[i].state.items():
-            task_environments[i].state[location] = possible_states[randint(0, len(possible_states) - 1)]
-        if task_environments[i] == blocked_task_environment:
-            i -= 1
+            curr_state = possible_states[randint(0, len(possible_states) - 1)]
+            if curr_state == 'Blocked':
+                num_blocked += 1
+            while curr_state == 'Blocked' and num_blocked == max_blocked:
+                curr_state = possible_states[randint(0, len(possible_states) - 1)]
+
+            task_environments[i].state[location] = curr_state 
 
     return task_environments
 
@@ -65,8 +72,10 @@ def main():
     possible_states = ['Dirty', 'Clean', 'Blocked']
     possible_locations = [['A', 'B'],
                           ['C', 'D']]
+    max_blocked = 1 # having more than one blocked state in a 2x2 grid can cause
+                    # deadlock, since agent cannot move diagonally
 
-    task_environments: list[Environment] = get_task_environments(possible_states, possible_locations)
+    task_environments: list[Environment] = get_task_environments(possible_states, possible_locations, max_blocked)
     scores: list[int] = []
 
     for task_environment in task_environments:
@@ -80,8 +89,6 @@ def main():
 
         num_turns = 0
         while task_environment.state != ideal_state:
-            set_trace()
-
             action: str = agent.get_action(location_status)
 
             new_row_num, new_col_num = row_num, col_num
