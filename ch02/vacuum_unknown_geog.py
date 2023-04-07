@@ -12,13 +12,18 @@ def get_task_environments(
         possible_locations: list[list[str]],
         max_blocked: int
 ) -> list[Environment]:
-    state = dict((location, None) for locations in possible_locations for location in locations)
+    state = dict(
+        (location, None) for locations in possible_locations for location in locations
+    )
 
-    num_locations = len([location for locations in possible_locations for location in locations])
+    num_locations = len(
+        [location for locations in possible_locations for location in locations]
+    )
+    num_task_environments = num_locations**(len(possible_states)-1) * max_blocked
 
     task_environment = Environment('VacuumWorld', state)
     task_environments: list[Environment] = [
-        deepcopy(task_environment) for _ in range(num_locations**len(possible_states))
+        deepcopy(task_environment) for _ in range(num_task_environments)
     ]
 
     return insert_random_states(possible_states, task_environments, max_blocked)
@@ -29,14 +34,14 @@ def insert_random_states(
         task_environments: list[Environment],
         max_blocked: int
 ) -> list[Environment]:
-    num_blocked = 0
 
     for i in range(len(task_environments)):
+        num_blocked = 0
         for location, _ in task_environments[i].state.items():
             curr_state = possible_states[randint(0, len(possible_states) - 1)]
             if curr_state == 'Blocked':
                 num_blocked += 1
-            while curr_state == 'Blocked' and num_blocked == max_blocked:
+            while curr_state == 'Blocked' and num_blocked > max_blocked:
                 curr_state = possible_states[randint(0, len(possible_states) - 1)]
 
             task_environments[i].state[location] = curr_state 
@@ -54,7 +59,9 @@ def get_ideal_state(current_state: dict[str, str]) -> dict[str, str]:
     return ideal_state
 
 
-def get_random_location(possible_locations: list[list[str]], state: dict[str, str]) -> tuple[int]:
+def get_random_location(
+        possible_locations: list[list[str]], state: dict[str, str]
+) -> tuple[int]:
     row_num = randint(0, len(possible_locations[0]) - 1)
     col_num = randint(0, len(possible_locations) - 1)
 
@@ -75,7 +82,9 @@ def main():
     max_blocked = 1 # having more than one blocked state in a 2x2 grid can cause
                     # deadlock, since agent cannot move diagonally
 
-    task_environments: list[Environment] = get_task_environments(possible_states, possible_locations, max_blocked)
+    task_environments: list[Environment] = get_task_environments(
+            possible_states, possible_locations, max_blocked
+        )
     scores: list[int] = []
 
     for task_environment in task_environments:
@@ -83,7 +92,9 @@ def main():
 
         ideal_state = get_ideal_state(task_environment.state)
 
-        row_num, col_num = get_random_location(possible_locations, task_environment.state)
+        row_num, col_num = get_random_location(
+            possible_locations, task_environment.state
+        )
         location = possible_locations[row_num][col_num]
         location_status = Sensor(name=location, value=task_environment.state[location])
 
@@ -99,7 +110,7 @@ def main():
                 task_environment.state[location] = 'Clean'
             else:
                 if action == 'Right':
-                    if col_num + 1 < len(possible_locations):
+                    if col_num + 1 < len(possible_locations[0]):
                         new_col_num = col_num + 1
                 elif action == 'Left':
                     if col_num - 1 >= 0:
@@ -108,7 +119,7 @@ def main():
                     if row_num - 1 >= 0:
                         new_row_num = row_num - 1
                 elif action == 'Down':
-                    if row_num + 1 > len(possible_locations[0]):
+                    if row_num + 1 > len(possible_locations):
                         new_row_num = row_num + 1
                 else:
                     raise SyntaxError("Invalid action string passed to agent.")

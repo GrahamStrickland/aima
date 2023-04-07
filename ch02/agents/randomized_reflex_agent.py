@@ -25,11 +25,13 @@ class RandomizedReflexAgent:
     def _rule_match(self, state: dict[str, str]) -> Actuator:
         action: str = ''
 
-        for k, v in state.items():
+        for _, v in state.items():
             if v == 'Dirty':
                 action = self._rules[v]
             else:
-                action = self._rules['Clean'][randint(0, len(self._rules['Clean']) - 1)]
+                action = self._rules[v][
+                        randint(0, len(self._rules['Clean']) - 1)
+                    ]
             break
 
         return Actuator(name='action', value=action)
