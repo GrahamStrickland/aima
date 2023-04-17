@@ -119,7 +119,7 @@ def main():
                     if row_num - 1 >= 0:
                         new_row_num = row_num - 1
                 elif action == 'Down':
-                    if row_num + 1 > len(possible_locations):
+                    if row_num + 1 < len(possible_locations):
                         new_row_num = row_num + 1
                 else:
                     raise SyntaxError("Invalid action string passed to agent.")
