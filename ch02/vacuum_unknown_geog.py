@@ -88,8 +88,6 @@ def main():
     scores: list[int] = []
 
     for task_environment in task_environments:
-        print("Executing task environment: ", task_environment.state)
-
         ideal_state = get_ideal_state(task_environment.state)
 
         row_num, col_num = get_random_location(
