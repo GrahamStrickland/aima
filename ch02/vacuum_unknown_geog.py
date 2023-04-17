@@ -62,12 +62,12 @@ def get_ideal_state(current_state: dict[str, str]) -> dict[str, str]:
 def get_random_location(
         possible_locations: list[list[str]], state: dict[str, str]
 ) -> tuple[int]:
-    row_num = randint(0, len(possible_locations[0]) - 1)
-    col_num = randint(0, len(possible_locations) - 1)
+    row_num = randint(0, len(possible_locations) - 1)
+    col_num = randint(0, len(possible_locations[0]) - 1)
 
     while state[possible_locations[row_num][col_num]] == 'Blocked':
-        row_num = randint(0, len(possible_locations[0]) - 1)
-        col_num = randint(0, len(possible_locations) - 1)
+        row_num = randint(0, len(possible_locations) - 1)
+        col_num = randint(0, len(possible_locations[0]) - 1)
 
     return (row_num, col_num)
 
@@ -78,7 +78,10 @@ def main():
     agent = RandomizedReflexAgent()
     possible_states = ['Dirty', 'Clean', 'Blocked']
     possible_locations = [['A', 'B'],
-                          ['C', 'D']]
+                          ['C', 'D'],
+                          ['E', 'F'],
+                          ['G', 'H'],
+                          ['I', 'J']]
     max_blocked = 1 # having more than one blocked state in a 2x2 grid can cause
                     # deadlock, since agent cannot move diagonally
 
