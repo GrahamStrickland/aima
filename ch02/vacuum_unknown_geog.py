@@ -77,11 +77,8 @@ def main():
 
     agent = RandomizedReflexAgent()
     possible_states = ['Dirty', 'Clean', 'Blocked']
-    possible_locations = [['A', 'B'],
-                          ['C', 'D'],
-                          ['E', 'F'],
-                          ['G', 'H'],
-                          ['I', 'J']]
+    possible_locations = [['A', 'B'], 
+                          ['C', 'D']]
     max_blocked = 1 # having more than one blocked state in a 2x2 grid can cause
                     # deadlock, since agent cannot move diagonally
 

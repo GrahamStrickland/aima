@@ -33,8 +33,6 @@ class ModelBasedReflexAgent:
         self._state['Environment'].state[self._sensor_model.name] = self._sensor_model.value
 
     def _rule_match(self) -> None:
-        action = ""
-
         if self._state['Environment'].state[self._sensor_model.name] == 'Dirty':
             action = self._rules[self._sensor_model.value]
         else:
