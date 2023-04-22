@@ -5,19 +5,11 @@ from modules.sensor import Sensor
 
 
 class ModelBasedReflexAgent:
-    def __init__(self):
-        self._state = {'Environment': Environment('VacuumWorld', {'A': None, 'B': None}),
-                       'Points': 0}
-        self._transition_model = {'Suck': 0,
-                                  'Right': -1,
-                                  'Left': -1}
+    def __init__(self, environment: Environment, rules: dict, transition_model: dict):
+        self._state = {'Environment': environment, 'Points': 0}
+        self._transition_model = transition_model 
         self._sensor_model = Sensor(None, None)
-        self._rules = {'Dirty': 'Suck',
-                       'Clean': {
-                           'A': 'Right',
-                           'B': 'Left'
-                           }
-                       }
+        self._rules = rules 
         self._action = Actuator('action', None)
 
     def get_action(self, percept: Sensor) -> str:
