@@ -2,6 +2,7 @@
 from copy import deepcopy
 from random import randint
 
+from agents.model_based_reflex_agent import ModelBasedReflexAgent 
 from agents.randomized_reflex_agent import RandomizedReflexAgent
 from modules.environment import Environment
 from modules.sensor import Sensor
@@ -75,7 +76,6 @@ def get_random_location(
 def main():
     print("Exercise 14: Vacuum Unknown Geography\n")
 
-    agent = RandomizedReflexAgent()
     possible_states = ['Dirty', 'Clean', 'Blocked']
     possible_locations = [['A', 'B'], 
                           ['C', 'D']]
@@ -85,7 +85,10 @@ def main():
     task_environments: list[Environment] = get_task_environments(
             possible_states, possible_locations, max_blocked
         )
-    scores: list[int] = []
+    simple_scores: list[int] = []
+
+    simple_agent = RandomizedReflexAgent()
+    stateful_agent = ModelBasedReflexAgent(possible_locations)
 
     for task_environment in task_environments:
         ideal_state = get_ideal_state(task_environment.state)
@@ -98,25 +101,25 @@ def main():
 
         num_turns = 0
         while task_environment.state != ideal_state:
-            action: str = agent.get_action(location_status)
+            simple_action: str = simple_agent.get_action(location_status)
 
             new_row_num, new_col_num = row_num, col_num
             new_location = location
             num_turns += 1
 
-            if action == 'Suck':
+            if simple_action == 'Suck':
                 task_environment.state[location] = 'Clean'
             else:
-                if action == 'Right':
+                if simple_action == 'Right':
                     if col_num + 1 < len(possible_locations[0]):
                         new_col_num = col_num + 1
-                elif action == 'Left':
+                elif simple_action == 'Left':
                     if col_num - 1 >= 0:
                         new_col_num = col_num - 1
-                elif action == 'Up':
+                elif simple_action == 'Up':
                     if row_num - 1 >= 0:
                         new_row_num = row_num - 1
-                elif action == 'Down':
+                elif simple_action == 'Down':
                     if row_num + 1 < len(possible_locations):
                         new_row_num = row_num + 1
                 else:
@@ -132,9 +135,9 @@ def main():
             location_status.name = location
             location_status.value = task_environment.state[location]
 
-        scores.append(num_turns)
+        simple_scores.append(num_turns)
 
-    print("Overall average score: ", sum(scores) / len(scores))
+    print("Overall average score: ", sum(simple_scores) / len(simple_scores))
 
 
 if __name__ == '__main__':
