@@ -22,7 +22,7 @@ def get_task_environments(
     )
     num_task_environments = num_locations**(len(possible_states)-1) * max_blocked
 
-    task_environment = Environment('VacuumWorld', state)
+    task_environment = Environment(name='VacuumWorld', state=state)
     task_environments: list[Environment] = [
         deepcopy(task_environment) for _ in range(num_task_environments)
     ]
@@ -88,7 +88,7 @@ def main():
     simple_scores: list[int] = []
 
     simple_agent = RandomizedReflexAgent()
-    stateful_agent = ModelBasedReflexAgent(possible_locations)
+    stateful_agent = ModelBasedReflexAgent(possible_locations=possible_locations)
 
     for task_environment in task_environments:
         ideal_state = get_ideal_state(task_environment.state)
@@ -101,25 +101,25 @@ def main():
 
         num_turns = 0
         while task_environment.state != ideal_state:
-            simple_action: str = simple_agent.get_action(location_status)
+            action: str = simple_agent.get_action(location_status)
 
             new_row_num, new_col_num = row_num, col_num
             new_location = location
             num_turns += 1
 
-            if simple_action == 'Suck':
+            if action == 'Suck':
                 task_environment.state[location] = 'Clean'
             else:
-                if simple_action == 'Right':
+                if action == 'Right':
                     if col_num + 1 < len(possible_locations[0]):
                         new_col_num = col_num + 1
-                elif simple_action == 'Left':
+                elif action == 'Left':
                     if col_num - 1 >= 0:
                         new_col_num = col_num - 1
-                elif simple_action == 'Up':
+                elif action == 'Up':
                     if row_num - 1 >= 0:
                         new_row_num = row_num - 1
-                elif simple_action == 'Down':
+                elif action == 'Down':
                     if row_num + 1 < len(possible_locations):
                         new_row_num = row_num + 1
                 else:
