@@ -63,7 +63,7 @@ class ModelBasedReflexAgent:
                                 action = move
                                 break
                         case 'Down':
-                            if row_num + 1 < len(possible_locations) and state[next] =! 'DBlocked 
+                            if row_num + 1 < len(possible_locations) and state[next] != 'Blocked':
                                 action = move
                                 break
                         case 'Left':

@@ -73,6 +73,48 @@ def get_random_location(
     return (row_num, col_num)
 
 
+def get_action(
+        agent, task_environment: Environment, possible_locations: list[list[str]],
+        location_status: Sensor, row_num: int, col_num: int
+) -> tuple[int]:
+    action: str = agent.get_action(location_status)
+    location = location_status.name
+
+    new_row_num, new_col_num = row_num, col_num
+    new_location = location_status.name
+
+    if action == 'Suck':
+        task_environment.state[location] = 'Clean'
+    else:
+        if action == 'Right':
+            if col_num + 1 < len(possible_locations[0]):
+                new_col_num = col_num + 1
+        elif action == 'Left':
+            if col_num - 1 >= 0:
+                new_col_num = col_num - 1
+        elif action == 'Up':
+            if row_num - 1 >= 0:
+                new_row_num = row_num - 1
+        elif action == 'Down':
+            if row_num + 1 < len(possible_locations):
+                new_row_num = row_num + 1
+        elif action == 'Stay':
+            pass
+        else:
+            raise SyntaxError("Invalid action string passed to agent.")
+
+        new_location = possible_locations[new_row_num][new_col_num]
+
+        if task_environment.state[new_location] != 'Blocked':
+            location = new_location 
+            row_num = new_row_num
+            col_num = new_col_num
+
+    location_status.name = location
+    location_status.value = task_environment.state[location]
+    return (row_num, col_num)
+
+
 def main():
     print("Exercise 14: Vacuum Unknown Geography\n")
 
@@ -86,6 +128,7 @@ def main():
             possible_states, possible_locations, max_blocked
         )
     simple_scores: list[int] = []
+    stateful_scores: list[int] = []
 
     simple_agent = RandomizedReflexAgent()
     stateful_agent = ModelBasedReflexAgent(possible_locations=possible_locations)
@@ -101,43 +144,22 @@ def main():
 
         num_turns = 0
         while task_environment.state != ideal_state:
-            action: str = simple_agent.get_action(location_status)
-
-            new_row_num, new_col_num = row_num, col_num
-            new_location = location
+            row_num, col_num = get_action(
+                agent=simple_agent, 
+                task_environment=task_environment, 
+                possible_locations=possible_locations, 
+                location_status=location_status, 
+                row_num=row_num,
+                col_num=col_num
+            ) 
             num_turns += 1
-
-            if action == 'Suck':
-                task_environment.state[location] = 'Clean'
-            else:
-                if action == 'Right':
-                    if col_num + 1 < len(possible_locations[0]):
-                        new_col_num = col_num + 1
-                elif action == 'Left':
-                    if col_num - 1 >= 0:
-                        new_col_num = col_num - 1
-                elif action == 'Up':
-                    if row_num - 1 >= 0:
-                        new_row_num = row_num - 1
-                elif action == 'Down':
-                    if row_num + 1 < len(possible_locations):
-                        new_row_num = row_num + 1
-                else:
-                    raise SyntaxError("Invalid action string passed to agent.")
-
-                new_location = possible_locations[new_row_num][new_col_num]
-
-                if task_environment.state[new_location] != 'Blocked':
-                    location = new_location 
-                    row_num = new_row_num
-                    col_num = new_col_num
-
-            location_status.name = location
-            location_status.value = task_environment.state[location]
 
         simple_scores.append(num_turns)
 
-    print("Overall average score: ", sum(simple_scores) / len(simple_scores))
+    print(
+        "Overall average score for simple agent: ", 
+        sum(simple_scores) / len(simple_scores)
+    )
 
 
 if __name__ == '__main__':
