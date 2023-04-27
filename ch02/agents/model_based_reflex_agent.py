@@ -22,9 +22,10 @@ class ModelBasedReflexAgent:
                                   'Stay': 0}
         self._sensor_model = Sensor(None, None)
         self._rules = {'Dirty': 'Suck', 
-                       'Clean': ['Up', 'Right', 'Down', 'Left'],
+                       'Clean': 'Move',
                        'Blocked': 'Stay'}
         self._action = Actuator('action', None)
+        self._directions = ['Up', 'Right', 'Down', 'Left']
 
     def get_action(self, percept: Sensor) -> str:
         self._update_state(percept)
@@ -39,39 +40,54 @@ class ModelBasedReflexAgent:
         self._state['Current'] = self._sensor_model.name
         self._state['Environment'].state[self._sensor_model.name] = self._sensor_model.value
 
+    def _get_next_position(self, move: str, row_num: int, col_num: int) -> str:
+        possible_locations = self._state['Geography']
+
+        match move:
+            case 'Up':
+                if row_num - 1 >= 0:
+                    return possible_locations[row_num-1][col_num]
+            case 'Right':
+                if col_num + 1 < len(possible_locations[0]):
+                    return possible_locations[row_num][col_num+1]
+            case 'Down':
+                if row_num + 1 < len(possible_locations):
+                    return possible_locations[row_num+1][col_num]
+            case 'Left':
+                if col_num - 1 >= 0:
+                    return possible_locations[row_num][col_num-1]
+        
+        return possible_locations[row_num][col_num]
+    
+    def _get_current_position(self, curr: str) -> tuple[int]:
+        possible_locations = self._state['Geography']
+
+        for row_num in range(len(possible_locations)):
+            for col_num in range(len(possible_locations[row_num])):
+                if possible_locations[row_num][col_num] == curr:
+                    return (row_num, col_num)
+
+        raise IndexError("Incorrect row and column reference")
+
     def _rule_match(self) -> None:
         curr = self._state['Current']
         state = self._state['Environment'].state
-        action = ''
+        action = self._rules[state[curr]]
 
-        match self._rules[state[curr]]:
-            case 'Suck':
-                action = 'Suck'
-            case 'Move':
-                possible_locations = self._state['Geography']
-                row_num = self._state['CurrentRowNum']
-                col_num = self._state['CurrentColNum']
-                next = possible_locations[row_num][col_num]
-                for move in self._rules['Clean']:
-                    match move:
-                        case 'Up':
-                            if row_num - 1 >= 0 and state[next] != 'Blocked':
-                                action = move
-                                break
-                        case 'Right':
-                            if col_num + 1 < len(possible_locations[0]) and state[next] != 'Blocked':
-                                action = move
-                                break
-                        case 'Down':
-                            if row_num + 1 < len(possible_locations) and state[next] != 'Blocked':
-                                action = move
-                                break
-                        case 'Left':
-                            if col_num - 1 >= 0 and state[next] != 'Blocked':
-                                action = move
-                                break
-            case 'Stay':
+        if action == 'Move':
+            possible_locations = self._state['Geography']
+            row_num, col_num = self._get_current_position(curr)
+            next = possible_locations[row_num][col_num]
+
+            for move in self._directions:
+                next = self._get_next_position(move, row_num, col_num)
+                if state[next] != ('Blocked' or 'Clean'):
+                    action = move
+                    break
                 action = 'Stay'
 
         self._action.value = action
-        self._state['Points'] += self._transition_model[self._action.value]
+        if action in self._directions:
+            self._state['Points'] += self._transition_model['Move']
+        else:
+            self._state['Points'] += self._transition_model[self._action.value]
