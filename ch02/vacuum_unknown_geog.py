@@ -115,6 +115,33 @@ def get_action(
     return (row_num, col_num)
 
 
+def get_score(
+        agent, task_environment: Environment, possible_locations: list[list[str]]
+) -> int:
+    ideal_state = get_ideal_state(task_environment.state)
+
+    row_num, col_num = get_random_location(
+        possible_locations, task_environment.state
+    )
+    location = possible_locations[row_num][col_num]
+    location_status = Sensor(name=location, value=task_environment.state[location])
+    curr_environment = deepcopy(task_environment)
+
+    num_turns = 0
+    while curr_environment.state != ideal_state:
+        row_num, col_num = get_action(
+            agent=agent, 
+            task_environment=curr_environment, 
+            possible_locations=possible_locations, 
+            location_status=location_status, 
+            row_num=row_num,
+            col_num=col_num
+        ) 
+        num_turns += 1
+
+    return num_turns
+
+
 def main():
     print("Exercise 14: Vacuum Unknown Geography\n")
 
@@ -125,8 +152,8 @@ def main():
                     # deadlock, since agent cannot move diagonally
 
     task_environments: list[Environment] = get_task_environments(
-            possible_states, possible_locations, max_blocked
-        )
+        possible_states, possible_locations, max_blocked
+    )
     simple_scores: list[int] = []
     stateful_scores: list[int] = []
 
@@ -134,31 +161,27 @@ def main():
     stateful_agent = ModelBasedReflexAgent(possible_locations=possible_locations)
 
     for task_environment in task_environments:
-        ideal_state = get_ideal_state(task_environment.state)
-
-        row_num, col_num = get_random_location(
-            possible_locations, task_environment.state
+        score = get_score(
+            agent=simple_agent, 
+            task_environment=task_environment, 
+            possible_locations=possible_locations
         )
-        location = possible_locations[row_num][col_num]
-        location_status = Sensor(name=location, value=task_environment.state[location])
+        simple_scores.append(score)
 
-        num_turns = 0
-        while task_environment.state != ideal_state:
-            row_num, col_num = get_action(
-                agent=simple_agent, 
-                task_environment=task_environment, 
-                possible_locations=possible_locations, 
-                location_status=location_status, 
-                row_num=row_num,
-                col_num=col_num
-            ) 
-            num_turns += 1
-
-        simple_scores.append(num_turns)
+        score = get_score(
+            agent=stateful_agent, 
+            task_environment=task_environment, 
+            possible_locations=possible_locations
+        )
+        stateful_scores.append(score)
 
     print(
         "Overall average score for simple agent: ", 
         sum(simple_scores) / len(simple_scores)
+    )
+    print(
+        "Overall average score for stateful agent: ", 
+        sum(stateful_scores) / len(stateful_scores)
     )
 
 

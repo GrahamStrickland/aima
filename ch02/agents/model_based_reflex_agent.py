@@ -42,12 +42,12 @@ class ModelBasedReflexAgent:
     def _rule_match(self) -> None:
         curr = self._state['Current']
         state = self._state['Environment'].state
+        action = ''
 
         match self._rules[state[curr]]:
             case 'Suck':
                 action = 'Suck'
             case 'Move':
-                action = ''
                 possible_locations = self._state['Geography']
                 row_num = self._state['CurrentRowNum']
                 col_num = self._state['CurrentColNum']
