@@ -75,15 +75,15 @@ class ModelBasedReflexAgent:
         action = self._rules[state[curr]]
 
         if action == 'Move':
-            possible_locations = self._state['Geography']
             row_num, col_num = self._get_current_position(curr)
-            next = possible_locations[row_num][col_num]
 
             for move in self._directions:
                 next = self._get_next_position(move, row_num, col_num)
                 if state[next] != ('Blocked' or 'Clean'):
                     action = move
                     break
+
+            if curr == next or action == 'Move':
                 action = 'Stay'
 
         self._action.value = action
