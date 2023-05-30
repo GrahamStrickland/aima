@@ -37,6 +37,10 @@ class ModelBasedReflexAgent:
 
     def _update_state(self, percept: Sensor) -> None:
         self._sensor_model = percept
+
+        if self._state['Current'] == self._sensor_model.name and self._action.value in self._directions:
+            self._state['Environment'].state[self._state['Current']] = 'Blocked' 
+
         self._state['Current'] = self._sensor_model.name
         self._state['Environment'].state[self._sensor_model.name] = self._sensor_model.value
 
@@ -79,7 +83,7 @@ class ModelBasedReflexAgent:
 
             for move in self._directions:
                 next = self._get_next_position(move, row_num, col_num)
-                if state[next] != ('Blocked' or 'Clean'):
+                if next != curr and state[next] != ('Blocked' or 'Clean'):
                     action = move
                     break
 
