@@ -125,7 +125,7 @@ def get_score(
     )
     location = possible_locations[row_num][col_num]
     location_status = Sensor(name=location, value=task_environment.state[location])
-    curr_environment = deepcopy(task_environment)
+    curr_environment = task_environment
 
     num_turns = 0
     while curr_environment.state != ideal_state:
@@ -157,20 +157,21 @@ def main():
     simple_scores: list[int] = []
     stateful_scores: list[int] = []
 
-    simple_agent = RandomizedReflexAgent()
-    stateful_agent = ModelBasedReflexAgent(possible_locations=possible_locations)
-
     for task_environment in task_environments:
+        simple_agent = RandomizedReflexAgent()
+        simple_agent_environment = deepcopy(task_environment)
         score = get_score(
             agent=simple_agent, 
-            task_environment=task_environment, 
+            task_environment=simple_agent_environment, 
             possible_locations=possible_locations
         )
         simple_scores.append(score)
 
+        stateful_agent = ModelBasedReflexAgent(possible_locations=possible_locations)
+        stateful_agent_environment = deepcopy(task_environment)
         score = get_score(
             agent=stateful_agent, 
-            task_environment=task_environment, 
+            task_environment=stateful_agent_environment, 
             possible_locations=possible_locations
         )
         stateful_scores.append(score)
