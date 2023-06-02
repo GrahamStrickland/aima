@@ -18,14 +18,14 @@ class ModelBasedReflexAgent:
             'Points': 0
         }
         self._transition_model = {'Suck': 1,
-                                  'Move': -1,
-                                  'Stay': 0}
+                                  'Move': -1}
         self._sensor_model = Sensor(None, None)
         self._rules = {'Dirty': 'Suck', 
                        'Clean': 'Move',
                        'Blocked': 'Stay'}
         self._action = Actuator('action', None)
         self._directions = ['Up', 'Right', 'Down', 'Left']
+        self._direction = 0
 
     def get_action(self, percept: Sensor) -> str:
         self._update_state(percept)
@@ -81,14 +81,13 @@ class ModelBasedReflexAgent:
         if action == 'Move':
             row_num, col_num = self._get_current_position(curr)
 
-            for move in self._directions:
+            while action == 'Move':
+                move = self._directions[self._direction]
                 next = self._get_next_position(move, row_num, col_num)
                 if next != curr and state[next] != ('Blocked' or 'Clean'):
                     action = move
-                    break
-
-            if curr == next or action == 'Move':
-                action = 'Stay'
+                else:
+                    self._direction = (self._direction + 1) % len(self._directions)
 
         self._action.value = action
         if action in self._directions:
