@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from random import randint
+
 from modules.actuator import Actuator
 from modules.environment import Environment
 from modules.sensor import Sensor
@@ -15,6 +17,7 @@ class ModelBasedReflexAgent:
             ),
             'Geography': possible_locations,
             'Current': None,
+            'Next': None,
             'Points': 0
         }
         self._transition_model = {'Suck': 1,
@@ -39,7 +42,7 @@ class ModelBasedReflexAgent:
         self._sensor_model = percept
 
         if self._state['Current'] == self._sensor_model.name and self._action.value in self._directions:
-            self._state['Environment'].state[self._state['Current']] = 'Blocked' 
+            self._state['Environment'].state[self._state['Next']] = 'Blocked' 
 
         self._state['Current'] = self._sensor_model.name
         self._state['Environment'].state[self._sensor_model.name] = self._sensor_model.value
@@ -84,10 +87,11 @@ class ModelBasedReflexAgent:
             while action == 'Move':
                 move = self._directions[self._direction]
                 next = self._get_next_position(move, row_num, col_num)
+                self._state['Next'] = next
                 if next != curr and state[next] != ('Blocked' or 'Clean'):
                     action = move
                 else:
-                    self._direction = (self._direction + 1) % len(self._directions)
+                    self._direction = randint(0, len(self._directions) - 1)
 
         self._action.value = action
         if action in self._directions:
