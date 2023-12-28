@@ -26,3 +26,4 @@ class Queue:
     def add(self, node: Node) -> None:
         """Inserts node into its proper place in the queue."""
         self.__frontier.append(node)
+
