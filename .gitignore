@@ -22,9 +22,9 @@
 .settings
 
 # Vim files
+tags
 *.swp
 $HOME
-/tags
 
 # Python files
 /venv
