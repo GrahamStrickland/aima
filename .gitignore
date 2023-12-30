@@ -24,6 +24,7 @@
 # Vim files
 *.swp
 $HOME
+/tags
 
 # Python files
 /venv
