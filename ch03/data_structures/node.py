@@ -18,7 +18,7 @@ class Node:
     """
 
     state: dict
-    parent: Node
+    parent: None
     action: str
     path_cost: float
 

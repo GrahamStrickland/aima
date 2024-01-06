@@ -3,7 +3,7 @@
 
 from typing import Callable
 
-from ..data_structures import Node, Queue
+from ..data_structures import Node, PriorityQueue
 
 
 def expand(problem, node: Node) -> generator[Node]:
