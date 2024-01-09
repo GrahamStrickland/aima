@@ -2,10 +2,8 @@
 from copy import deepcopy
 from random import randint
 
-from agents.model_based_reflex_agent import ModelBasedReflexAgent 
-from agents.randomized_reflex_agent import RandomizedReflexAgent
-from modules.environment import Environment
-from modules.sensor import Sensor
+from ..agents import ModelBasedReflexAgent, RandomizedReflexAgent
+from ..data_structures import Environment, Sensor
 
 
 def get_task_environments(
@@ -188,3 +186,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

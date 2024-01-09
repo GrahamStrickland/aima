@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-from modules.actuator import Actuator
-from modules.sensor import Sensor
+from ..data_structures import Actuator, Sensor
 
 
 def reflex_vacuum_agent(location_status: Sensor) -> Actuator:
@@ -16,3 +15,4 @@ def reflex_vacuum_agent(location_status: Sensor) -> Actuator:
         action = 'Left'
 
     return Actuator('action', action)
+

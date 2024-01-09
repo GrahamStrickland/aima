@@ -3,7 +3,7 @@
 
 from typing import Callable
 
-from node import Node
+from .node import Node
 
 
 class PriorityQueue(): 

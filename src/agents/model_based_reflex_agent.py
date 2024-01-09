@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 from random import randint
 
-from modules.actuator import Actuator
-from modules.environment import Environment
-from modules.sensor import Sensor
+from ..data_structures import Actuator, Environment, Sensor
 
 
 class ModelBasedReflexAgent:
@@ -98,3 +96,4 @@ class ModelBasedReflexAgent:
             self._state['Points'] += self._transition_model['Move']
         else:
             self._state['Points'] += self._transition_model[self._action.value]
+

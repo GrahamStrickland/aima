@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 from copy import deepcopy
 
-from agents.reflex_vacuum_agent import reflex_vacuum_agent
-from modules.actuator import Actuator
-from modules.environment import Environment
-from modules.sensor import Sensor 
+from src.agents import reflex_vacuum_agent
+from src.data_structures import Actuator, Environment, Sensor 
 
 
 def test_vacuum_world() -> None:

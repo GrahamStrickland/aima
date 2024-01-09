@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 from copy import deepcopy
 
-from agents.simple_reflex_agent import SimpleReflexAgent
-from modules.environment import Environment
-from modules.sensor import Sensor
+from ..agents import SimpleReflexAgent
+from ..data_structures import Environment, Sensor
 
 
 def main():

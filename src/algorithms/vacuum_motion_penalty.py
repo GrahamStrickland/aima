@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 from copy import deepcopy
 
-from agents.model_based_reflex_agent import ModelBasedReflexAgent
-from modules.environment import Environment
-from modules.sensor import Sensor
+from ..agents import ModelBasedReflexAgent
+from ..data_structures import Environment, Sensor
 
 
 # noinspection DuplicatedCode
@@ -60,3 +59,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

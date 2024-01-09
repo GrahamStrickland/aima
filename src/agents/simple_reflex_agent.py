@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-from modules.actuator import Actuator
-from modules.sensor import Sensor
+from ..data_structures import Actuator, Sensor
 
 
 class SimpleReflexAgent:
