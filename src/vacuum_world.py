@@ -4,7 +4,6 @@ from modules.environment import Environment
 from modules.sensor import Sensor
 
 
-# noinspection DuplicatedCode
 def main():
     print("Exercise 11: Reflex Vacuum Agent")
 
@@ -32,3 +31,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

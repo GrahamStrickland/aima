@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Overloaded child class of PriorityQueue using evaluation function."""
 
+from collections import deque
 from typing import Callable
 
 from .node import Node
@@ -9,7 +10,7 @@ from .node import Node
 class PriorityQueue(): 
     """First pops the node with the minimum cost according to some 
     evaluation function."""
-    _frontier: list[Node]
+    _frontier: deque[Node]
 
     def __init__(self, f: Callable[[Node], float]) -> None:
         """Initialises a priority queue ordered by f
@@ -18,7 +19,7 @@ class PriorityQueue():
             f (Callable): Evaluation function for comparing nodes.
         """
         self._eval_func = f
-        self._frontier = []
+        self._frontier = deque()
 
     def is_empty(self) -> bool:
         """Returns True only if there are no nodes in the frontier."""
@@ -32,7 +33,7 @@ class PriorityQueue():
                 is not empty, else None.
         """
         if not self.is_empty():
-            return self._frontier.pop()
+            return self._frontier.popleft()
         else:
             return None
 
@@ -54,5 +55,8 @@ class PriorityQueue():
         Args:
             node (Node): Node to be put into the queue.
         """
-        list.append(node)
+        self._frontier.append(node)
+
+        while self._frontier[0].path_cost > node.path_cost:
+            self._frontier.rotate(1)
 
