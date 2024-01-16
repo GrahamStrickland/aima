@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
 """Best-First-Search algorithm."""
 
-from typing import Callable
+from typing import Callable, Generator
 
 from ..data_structures import Node, PriorityQueue
 
 
-def expand(problem, node: Node) -> generator[Node]:
+def expand(problem, node: Node) -> Generator[Node, None, None]:
     """Expands a node and yields its children nodes.
 
     Args:
         problem:
         node: A node on the frontier in the search problem.
 
-    Returns:
+    Yields:
         A generator object containing the child nodes.
     """
     pass

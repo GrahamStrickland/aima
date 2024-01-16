@@ -9,7 +9,7 @@ class Node:
     """A data structure to keep track of the search tree in a search problem.
 
     Attributes:
-        state: A dict representing the state to which the node corresponds
+        state: A dict representing the state to which the node corresponds.
         parent: The node in the tree that generated this node.
         action: A string representing the action that was applied to the parent's
                 state to generate this node.
@@ -17,8 +17,8 @@ class Node:
                    state to this node.
     """
 
-    state: dict
-    parent: None
-    action: str
+    state: str 
     path_cost: float
+    parent: str | None = None
+    action: str | None = None
 
