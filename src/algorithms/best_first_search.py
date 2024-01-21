@@ -3,7 +3,7 @@
 
 from typing import Callable, Generator
 
-from ..data_structures import Node, PriorityQueue
+from ..data_structures import Node, PriorityQueue, Problem
 
 
 def expand(problem, node: Node) -> Generator[Node, None, None]:
@@ -16,7 +16,13 @@ def expand(problem, node: Node) -> Generator[Node, None, None]:
     Yields:
         A generator object containing the child nodes.
     """
-    pass
+    s = node.state
+
+    for action in problem.actions(s):
+        s_prime = problem.result(s, action)
+        cost = node.path_cost + problem.action_cost(s, action, s_prime)
+        yield Node(state=s_prime, parent=node, action=action, path_cost=cost)
+
 
 
 def best_first_search(problem, f: Callable) -> Node | None:

@@ -25,7 +25,7 @@ class Problem:
     _initial_state: str 
     _goal_state: str
     _actions: set[str]
-    _transition_model: Callable[str, str]
+    _transition_model: Callable[str, Node]
     _action_cost: Callable[str, float]
 
     def __init__(
@@ -34,7 +34,7 @@ class Problem:
         initial_state: Node,
         goal_state: Node,
         actions: set[str],
-        transition_model: dict[str, Node],
+        transition_model: Callable[str, Node],
         action_cost: Callable
     ):
         self._states = states
@@ -49,4 +49,7 @@ class Problem:
 
     def is_goal(self, state: str) -> bool:
         return state == self._goal_state 
+
+    def actions(self, state: s) -> set[str]:
+        return self._actions
 

@@ -5,7 +5,7 @@ from src.data_structures import Node, Problem
 
 
 class TestProblem:
-    states = [
+    _nodes = [
         Node(state="Arad", parent=None, action=None, path_cost=0),
         Node(state="Sibiu", parent="Arad", action="ToSibiu", path_cost=140),
         Node(state="Timisoara", parent="Arad", action="ToTimisoara", path_cost=118),
@@ -33,17 +33,17 @@ class TestProblem:
         Node(state="Neamt", parent="Vaslui", action="ToNeamt", path_cost=87)
     ]
 
-    actions = {"ToSibiu", "ToTimisoara", "ToZerind", "ToOradea", "ToFagaras",
+    _actions = {"ToSibiu", "ToTimisoara", "ToZerind", "ToOradea", "ToFagaras",
         "ToRimnicuVilcea", "ToLugoj", "ToBucharest", "ToPitesti", "ToCraiova",
         "ToMehadia", "ToUrziceni", "ToGiurgiu", "ToDrobeta", "ToVaslui", 
         "ToHirsova", "ToIasi", "ToEforie", "ToNeamt"
     }
 
     _problem = Problem(
-        states=states, 
+        states=[node.state for node in _nodes], 
         initial_state="Arad", 
         goal_state="Bucharest",
-        actions=actions,
+        actions=_actions,
         transition_model=lambda state, action: action[2:],
         action_cost=[lambda node: node.path_cost]
     )
@@ -66,4 +66,7 @@ class TestProblem:
         assert self._problem.is_goal("Bucharest")
 
         assert not self._problem.is_goal("Neamt")
+
+    def test_actions(self) -> None:
+        assert self._problem.actions() == self._actions
 
