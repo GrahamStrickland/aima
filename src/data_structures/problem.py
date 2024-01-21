@@ -23,9 +23,9 @@ class Problem:
     """
     _states: list[str]
     _initial_state: str 
-    _goal_state: Node
+    _goal_state: str
     _actions: set[str]
-    _transition_model: dict[str, str]
+    _transition_model: Callable[str, str]
     _action_cost: Callable[str, float]
 
     def __init__(
@@ -43,4 +43,10 @@ class Problem:
         self._actions = actions
         self._transition_model = transition_model
         self._action_cost = action_cost
+
+    def initial(self) -> str:
+        return self._initial_state
+
+    def is_goal(self, state: str) -> bool:
+        return state == self._goal_state 
 
