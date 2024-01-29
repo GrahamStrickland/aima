@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-from agents.reflex_vacuum_agent import reflex_vacuum_agent
-from modules.environment import Environment
-from modules.sensor import Sensor
+from .agents import reflex_vacuum_agent
+from .data_structures import Environment, Sensor
 
 
 def main():
@@ -31,4 +30,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
