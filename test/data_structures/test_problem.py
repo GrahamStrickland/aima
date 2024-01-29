@@ -22,7 +22,6 @@ class TestProblem:
         Node(state="Urziceni", parent="Bucharest", action="ToUrziceni", path_cost=85),
         Node(state="Giurgiu", parent="Bucharest", action="ToGiurgiu", path_cost=90),
         Node(state="Pitesti", parent="Bucharest", action="ToPitesti", path_cost=101),
-        Node(state="Bucharest", parent="Pitesti", action="ToBucharest", path_cost=101),
         Node(state="Craiova", parent="Pitesti", action="ToCraiova", path_cost=138),
         Node(state="Drobeta", parent="Mehadia", action="ToDrobeta", path_cost=75),
         Node(state="Vaslui", parent="Urziceni", action="ToVaslui", path_cost=142),
@@ -69,4 +68,3 @@ class TestProblem:
 
     def test_actions(self) -> None:
         assert self._problem.actions() == self._actions
-
