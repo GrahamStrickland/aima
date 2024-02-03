@@ -16,15 +16,15 @@ class Problem:
         goal_states (str): States defined by a property that applies to
             one or many states indicating that the problem solution has
             been found.
-        actions (set[str]): The actions available to the agent.
-        transition_model (dict[str, str]): Describes what each action does.
+        actions (Callable): The actions available to the agent.
+        transition_model (Callable): Describes what each action does.
         action_cost (Callable): Gives the numeric cost of applying action
             a in state s to reach state s'.
     """
     _states: list[str]
     _initial_state: str 
     _goal_state: str
-    _actions: set[str]
+    _actions: Callable[[str], str]
     _transition_model: Callable[[str], Node]
     _action_cost: Callable[[str], float]
 
@@ -33,7 +33,7 @@ class Problem:
         states: list[Node],
         initial_state: Node,
         goal_state: Node,
-        actions: set[str],
+        actions: Callable[[str], set[str]],
         transition_model: Callable[[str], Node],
         action_cost: Callable[[str], float]
     ):
@@ -51,4 +51,4 @@ class Problem:
         return state == self._goal_state 
 
     def actions(self, state: str) -> set[str]:
-        return self._actions
+        return self._actions(state)

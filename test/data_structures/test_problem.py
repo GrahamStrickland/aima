@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 """Unit tests for Problem data structure."""
 
+from pytest import fixture
+
 from src.data_structures import Node, Problem
 
 
-class TestProblem:
-    _nodes = [
+@fixture
+def nodes() -> list[Node]:
+    return [
         Node(state="Arad", parent=None, action=None, path_cost=0),
         Node(state="Sibiu", parent="Arad", action="ToSibiu", path_cost=140),
         Node(state="Timisoara", parent="Arad", action="ToTimisoara", path_cost=118),
@@ -31,40 +34,38 @@ class TestProblem:
         Node(state="Eforie", parent="Hirsova", action="ToEforie", path_cost=86),
         Node(state="Neamt", parent="Vaslui", action="ToNeamt", path_cost=87)
     ]
+    
 
-    _actions = {"ToSibiu", "ToTimisoara", "ToZerind", "ToOradea", "ToFagaras",
-        "ToRimnicuVilcea", "ToLugoj", "ToBucharest", "ToPitesti", "ToCraiova",
-        "ToMehadia", "ToUrziceni", "ToGiurgiu", "ToDrobeta", "ToVaslui", 
-        "ToHirsova", "ToIasi", "ToEforie", "ToNeamt"
-    }
-
-    _problem = Problem(
-        states=[node.state for node in _nodes], 
+@fixture
+def problem(nodes) -> Problem:
+    return Problem(
+        states={node.state for node in nodes}, 
         initial_state="Arad", 
         goal_state="Bucharest",
-        actions=_actions,
-        transition_model=lambda state, action: action[2:],
-        action_cost=[lambda node: node.path_cost]
+        actions=lambda state: {(node.action if node.parent == state else None) for node in nodes} - {None}, 
+        transition_model=lambda _, action: action[2:],
+        action_cost=lambda node: node.path_cost
     )
 
+class TestProblem:
     def test_constructor(self) -> None:
         assert isinstance(self._problem, Problem)
 
-    def test_initial(self) -> None:
+    def test_initial(self, problem: Problem) -> None:
         exp = "Arad"
-        obs = self._problem.initial()
+        obs = problem.initial()
 
         assert obs == exp 
 
         exp = "Zerind"
-        obs = self._problem.initial()
+        obs = problem.initial()
 
         assert obs != exp
 
-    def test_is_goal(self) -> None:
-        assert self._problem.is_goal("Bucharest")
+    def test_is_goal(self, problem: Problem) -> None:
+        assert problem.is_goal("Bucharest")
 
-        assert not self._problem.is_goal("Neamt")
+        assert not problem.is_goal("Neamt")
 
-    def test_actions(self) -> None:
-        assert self._problem.actions() == self._actions
+    def test_actions(self, problem: Problem) -> None:
+        assert problem.actions("Arad") == {"ToSibiu", "ToTimisoara", "ToZerind"}
