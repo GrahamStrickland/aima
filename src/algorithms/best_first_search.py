@@ -38,4 +38,3 @@ def best_first_search(problem, f: Callable) -> Node | None:
         A solution node or failure (None).
     """
     pass
-

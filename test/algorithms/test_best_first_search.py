@@ -60,9 +60,7 @@ class TestBestFirstSearch:
             assert node.action == "To" + node.state
 
             if node.parent() == "Arad":
-                assert node.state in ["Sibiu", "Timisoara", "Zerind"]
-                assert node.action in ["ToSibiu", "ToTimisoara", "ToZerind"]
+                assert node.state in {"Sibiu", "Timisoara", "Zerind"}
 
     def test_best_first_search(self) -> None:
         pass
-
