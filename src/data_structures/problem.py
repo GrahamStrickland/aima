@@ -52,3 +52,9 @@ class Problem:
 
     def actions(self, state: str) -> set[str]:
         return self._actions(state)
+
+    def result(self, state: str, action: str) -> str:
+        return self._transition_model(state, action)
+
+    def action_cost(self, state: str, action: str, state_p: str) -> float:
+        return self._action_cost(state, action, state_p)

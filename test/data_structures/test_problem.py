@@ -42,14 +42,16 @@ def problem(nodes) -> Problem:
         states={node.state for node in nodes}, 
         initial_state="Arad", 
         goal_state="Bucharest",
-        actions=lambda state: {(node.action if node.parent == state else None) for node in nodes} - {None}, 
+        actions=lambda state: {(node.action if node.parent == state else None) \
+                for node in nodes} - {None}, 
         transition_model=lambda _, action: action[2:],
-        action_cost=lambda node: node.path_cost
+        action_cost=lambda s, a, s_p: next(node.path_cost for node in nodes if \
+                node.state == s_p and node.parent == s and node.action == a)
     )
 
 class TestProblem:
-    def test_constructor(self) -> None:
-        assert isinstance(self._problem, Problem)
+    def test_constructor(self, problem) -> None:
+        assert isinstance(problem, Problem)
 
     def test_initial(self, problem: Problem) -> None:
         exp = "Arad"
@@ -69,3 +71,9 @@ class TestProblem:
 
     def test_actions(self, problem: Problem) -> None:
         assert problem.actions("Arad") == {"ToSibiu", "ToTimisoara", "ToZerind"}
+
+    def test_result(self, problem: Problem) -> None:
+        assert problem.result("Arad", "ToZerind") == "Zerind"
+
+    def test_action_cost(self, problem: Problem) -> None:
+        assert problem.action_cost("Arad", "ToZerind", "Zerind") == 75
