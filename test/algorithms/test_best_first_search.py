@@ -50,11 +50,7 @@ class TestBestFirstSearch:
     )
 
     def test_expand(self) -> None:
-        nodes = expand(self._problem, Node("Arad", parent=None, action=None, path_cost=0))
-
-        assert nodes is not None
-
-        for node in nodes:
+        for node in expand(self._problem, Node("Arad", parent=None, action=None, path_cost=0))
             assert isinstance(node, Node)
             assert node.path_cost != 0
             assert node.action == "To" + node.state
