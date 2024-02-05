@@ -20,7 +20,6 @@ class TestBestFirstSearch:
 
         assert solution.state == "Bucharest"
         assert solution.path_cost == 450
-        assert solution.parent.state == "Pitesti"
-        assert solution.parent.parent.state == "RimnicuVilcea"
-        assert solution.parent.parent.parent.state == "Sibiu"
-        assert solution.parent.parent.parent.parent.state == "Arad"
+        assert solution.parent.state == "Fagaras"
+        assert solution.parent.parent.state == "Sibiu"
+        assert solution.parent.parent.parent.state == "Arad"

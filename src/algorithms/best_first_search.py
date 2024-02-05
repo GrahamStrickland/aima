@@ -25,7 +25,7 @@ def expand(problem, node: Node) -> Generator[Node, None, None]:
 
 
 
-def best_first_search(problem, f: Callable) -> Node | None:
+def best_first_search(problem: Problem, f: Callable) -> Node | None:
     """On each iteration choose a node on the frontier with minimum f(n) value,
     return it if its state is a goal state, and otherwise apply expand() to 
     generate child nodes.
@@ -37,4 +37,20 @@ def best_first_search(problem, f: Callable) -> Node | None:
     Returns:
         A solution node or failure (None).
     """
-    pass
+    node = Node(state=problem.initial(), path_cost=0)
+    frontier = PriorityQueue(f)
+    frontier.add(node)
+    reached: dict[str, Node] = {problem.initial(): node}
+
+    while not frontier.is_empty():
+        node: Node = frontier.pop()
+        if problem.is_goal(node.state):
+            return node
+        
+        for child in expand(problem, node):
+            s: str = child.state
+            if s not in reached.keys():
+                reached[s] = child
+                frontier.add(child)
+
+    return None

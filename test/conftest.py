@@ -14,7 +14,7 @@ def nodes() -> list[Node]:
         Node(state="Zerind", parent="Arad", action="ToZerind", path_cost=75),
         Node(state="Oradea", parent="Sibiu", action="ToOradea", path_cost=151),
         Node(state="Fagaras", parent="Sibiu", action="ToFagaras", path_cost=99),
-        Node(state="RimnicuVilcea", parent="Sibiu", action="ToRimniuVilcea", path_cost=80),
+        Node(state="RimnicuVilcea", parent="Sibiu", action="ToRimnicuVilcea", path_cost=80),
         Node(state="Lugoj", parent="Timisoara", action="ToLugoj", path_cost=111),
         Node(state="Oradea", parent="Zerind", action="ToOradea", path_cost=71),
         Node(state="Bucharest", parent="Fagaras", action="ToBucharest", path_cost=211),

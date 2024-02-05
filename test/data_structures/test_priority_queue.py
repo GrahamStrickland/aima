@@ -3,6 +3,7 @@
 
 from src.data_structures import Node, PriorityQueue
 
+
 def f(node: Node) -> float:
     return node.path_cost
 
