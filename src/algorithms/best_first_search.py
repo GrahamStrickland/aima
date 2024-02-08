@@ -24,7 +24,6 @@ def expand(problem, node: Node) -> Generator[Node, None, None]:
         yield Node(state=s_prime, parent=node, action=action, path_cost=cost)
 
 
-
 def best_first_search(problem: Problem, f: Callable) -> Node | None:
     """On each iteration choose a node on the frontier with minimum f(n) value,
     return it if its state is a goal state, and otherwise apply expand() to 
