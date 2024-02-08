@@ -23,7 +23,7 @@ def breadth_first_search(problem: Problem) -> Node | None:
 
     frontier = Queue()
     frontier.put(node)
-    reached: set[str] = {problem.initial()}
+    reached: set[str] = set([problem.initial()])
 
     while not frontier.empty():
         node: Node = frontier.get()
@@ -34,7 +34,7 @@ def breadth_first_search(problem: Problem) -> Node | None:
                 return child
 
             if s not in reached:
-                reached.add(child)
-                frontier.add(child)
+                reached.add(child.state)
+                frontier.put(child)
 
     return None
