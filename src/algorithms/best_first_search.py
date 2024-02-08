@@ -10,7 +10,7 @@ def expand(problem, node: Node) -> Generator[Node, None, None]:
     """Expands a node and yields its children nodes.
 
     Args:
-        problem:
+        problem: A problem instance.
         node: A node on the frontier in the search problem.
 
     Yields:
@@ -30,8 +30,8 @@ def best_first_search(problem: Problem, f: Callable) -> Node | None:
     generate child nodes.
 
     Args:
-        problem:
-        f: 
+        problem: A problem instance.
+        f: A cost function to be used in evaluating the next node to be expanded.
 
     Returns:
         A solution node or failure (None).
