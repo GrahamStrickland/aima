@@ -29,13 +29,10 @@ def best_first_search(problem: Problem, f: Callable) -> Node | None:
         if problem.is_goal(node.state):
             return node
         
-        try:
-            for child in expand(problem, node):
-                s: str = child.state
-                if s not in reached.keys():
-                    reached[s] = child
-                    frontier.add(child)
-        except StopIteration:
-            return None
+        for child in expand(problem, node):
+            s: str = child.state
+            if s not in reached.keys():
+                reached[s] = child
+                frontier.add(child)
 
     return None
