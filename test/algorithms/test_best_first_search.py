@@ -13,7 +13,7 @@ class TestBestFirstSearch:
             assert node.action == "To" + node.state
 
             if node.parent == "Arad":
-                assert node.state in {"Sibitu", "Timisoara", "Zerind"}
+                assert node.state in {"Sibiu", "Timisoara", "Zerind"}
 
     def test_best_first_search(self, problem: Problem) -> None:
         solution = best_first_search(problem, lambda node: node.path_cost)

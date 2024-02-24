@@ -21,4 +21,3 @@ class Node:
     path_cost: float
     parent: str | None = None
     action: str | None = None
-
