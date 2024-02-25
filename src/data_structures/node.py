@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Node class for search problems."""
 
+from __future__ import annotations
 from dataclasses import dataclass
 
 
@@ -19,5 +20,5 @@ class Node:
 
     state: str 
     path_cost: float
-    parent: str | None = None
+    parent: Node | None = None
     action: str | None = None
