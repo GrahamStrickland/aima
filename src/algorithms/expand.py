@@ -3,10 +3,10 @@
 
 from typing import Generator
 
-from ..data_structures import Node
+from ..data_structures import Node, Problem
 
 
-def expand(problem, node: Node) -> Generator[Node, None, None]:
+def expand(problem: Problem, node: Node) -> Generator[Node, None, None]:
     """Expands a node and yields its children nodes.
 
     Args:
