@@ -5,11 +5,11 @@ from src.algorithms import bibf_search
 from src.data_structures import Problem
 
 
-def test_uniform_cost_search(problem: Problem) -> None:
+def test_uniform_cost_search(problem: Problem, problem_b: Problem) -> None:
     solution = bibf_search(
-        problem_b=problem, 
-        ff=lambda node: node.path_cost,
         problem_f=problem, 
+        ff=lambda node: node.path_cost,
+        problem_b=problem_b, 
         fb=lambda node: node.path_cost,
     )
 

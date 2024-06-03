@@ -59,4 +59,3 @@ class PriorityQueue():
 
         while self._frontier[0].path_cost > node.path_cost:
             self._frontier.rotate(1)
-

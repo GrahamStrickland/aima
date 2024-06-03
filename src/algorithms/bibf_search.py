@@ -1,25 +1,45 @@
 #!/usr/bin/env python3
 """BiBf-Search algorithm."""
 
+from enum import Enum
 from typing import Callable
 
 from .expand import expand
 from ..data_structures import Node, PriorityQueue, Problem
 
 
+class Direction(Enum):
+    F = 1
+    B = 2
+
+
 def terminated(
     solution: Node | None, frontier_f: PriorityQueue, frontier_b: PriorityQueue
 ) -> bool:
-    """Test to prove that there is no possible better soution remaining."""
-    return True
+    """Test to prove that there is no possible better solution remaining."""
+
+    return solution == frontier_f.top() and solution == frontier_b.top()
 
 
-def join_nodes(dir: str, node1: Node, node2: Node) -> Node:
-    return node1
+def join_nodes(dir: Direction, node_f: Node, node_b: Node) -> Node:
+    if dir == Direction.F:
+        while node_b.parent is not None:
+            node = Node(state=node_b.state, path_cost=node_b.path_cost, parent=node_f, action=("To" + node_b.state))
+            node_f = node
+            node_b = node_b.parent
+
+        return node_b
+    else:
+        while node_f.parent is not None:
+            node = Node(state=node_f.state, path_cost=node_f.path_cost, parent=node_b, action=("To" + node_f.state))
+            node_b = node
+            node_f = node_f.parent
+
+        return node_f
 
 
 def proceed(
-    dir: str, problem: Problem, frontier: PriorityQueue, reached: dict[str, Node],
+    dir: Direction, problem: Problem, frontier: PriorityQueue, reached: dict[str, Node],
     reached2: dict[str, Node], solution: Node | None) -> Node | None:
     """Expand node on frontier; check against the other frontier in reached2.
     
@@ -77,7 +97,7 @@ def bibf_search(
     ):
         if ff(frontier_f.top()) < fb(frontier_b.top()):
             solution = proceed(
-                dir="F", 
+                dir=Direction.F, 
                 problem=problem_f, 
                 frontier=frontier_f, 
                 reached=reached_f, 
@@ -86,7 +106,7 @@ def bibf_search(
             )
         else:
             solution = proceed(
-                dir="B", 
+                dir=Direction.B, 
                 problem=problem_b, 
                 frontier=frontier_b, 
                 reached=reached_b, 

@@ -67,3 +67,22 @@ def problem(nodes) -> Problem:
                 node.parent.state == s and node.action == a
         )
     )
+
+@fixture
+def problem_b(nodes) -> Problem:
+    return Problem(
+        states={node.state for node in nodes}, 
+        initial_state="Bucharest", 
+        goal_state="Arad",
+        actions=lambda state: {
+                (node.action if node.parent is not None and \
+                node.parent.state == state else None) \
+                for node in nodes
+        } - {None}, 
+        transition_model=lambda _, action: action[2:],
+        action_cost=lambda s, a, s_p: next(
+                node.path_cost for node in nodes 
+                if node.state == s_p and node.parent is not None and 
+                node.parent.state == s and node.action == a
+        )
+    )
