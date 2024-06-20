@@ -32,3 +32,6 @@ $HOME
 .pytest_cache
 __pycache__/
 *.pyc
+
+# IDE files
+*.json
