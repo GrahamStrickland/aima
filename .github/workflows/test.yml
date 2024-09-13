@@ -9,12 +9,15 @@ jobs:
   ruff:
     runs-on: macos-latest
     steps:
-      - name: Lint/format with ruff
+      - name: Format 
         uses: chartboost/ruff-action@v1
         with:
-          args: 
-            - "format --check"
-            - "check --fix"
+          args: "format --check"
+
+      - name: Fix
+        uses: chartboost/ruff-action@v1
+        with:
+          args: "check --fix"
   test:
     runs-on: macos-latest
     steps:
