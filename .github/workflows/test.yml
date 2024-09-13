@@ -12,8 +12,9 @@ jobs:
       - name: Lint/format with ruff
         uses: chartboost/ruff-action@v1
         with:
-          src: "./src"
-          args: "format --check"
+          args: 
+            - "format --check"
+            - "check --fix"
   test:
     runs-on: macos-latest
     steps:
