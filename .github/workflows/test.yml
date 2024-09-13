@@ -1,4 +1,4 @@
-name: Test AIMA
+name: Format and test AIMA
 
 on:
   push:
@@ -19,10 +19,16 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pytest
+  lint/format:
+    runs-on: self-hosted
+    steps:
       - name: Lint/format with ruff
         uses: chartboost/ruff-action@v1
         with:
           args: 'format --check'
+  test:
+    runs-on: self-hosted
+    steps:
       - name: Test with pytest
         run: |
           pytest
