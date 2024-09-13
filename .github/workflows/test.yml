@@ -9,6 +9,8 @@ jobs:
   ruff:
     runs-on: macos-latest
     steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
       - name: Format 
         uses: chartboost/ruff-action@v1
         with:
