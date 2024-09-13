@@ -20,13 +20,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest
   ruff:
+    runs-on: macos-latest
     steps:
       - name: Lint/format with ruff
         uses: chartboost/ruff-action@v1
         with:
           args: 'format --check'
   pytest:
-    runs-on: self-hosted
+    runs-on: macos-latest
     steps:
       - name: Test with pytest
         run: |
