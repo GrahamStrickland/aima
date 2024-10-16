@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Unit tests for Iterative-Deepening-Search algorithm."""
 
-from src.algorithms import iterative_deepening_search 
+from src.algorithms import iterative_deepening_search
 from src.data_structures import Problem
 
 

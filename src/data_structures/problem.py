@@ -10,7 +10,7 @@ class Problem:
     """Data structure to implement a model problem.
 
     Attributes:
-        states (list[str]): A set of possible states that the environment 
+        states (list[str]): A set of possible states that the environment
             can be in.
         initial_state (str): The initial state that the agent starts in.
         goal_states (str): States defined by a property that applies to
@@ -21,8 +21,9 @@ class Problem:
         action_cost (Callable): Gives the numeric cost of applying action
             a in state s to reach state s'.
     """
+
     _states: list[str]
-    _initial_state: str 
+    _initial_state: str
     _goal_state: str
     _actions: Callable[[str], str]
     _transition_model: Callable[[str], Node]
@@ -35,7 +36,7 @@ class Problem:
         goal_state: Node,
         actions: Callable[[str], set[str]],
         transition_model: Callable[[str], Node],
-        action_cost: Callable[[str], float]
+        action_cost: Callable[[str], float],
     ):
         self._states = states
         self._initial_state = initial_state
@@ -48,7 +49,7 @@ class Problem:
         return self._initial_state
 
     def is_goal(self, state: str) -> bool:
-        return state == self._goal_state 
+        return state == self._goal_state
 
     def actions(self, state: str) -> set[str]:
         return self._actions(state)

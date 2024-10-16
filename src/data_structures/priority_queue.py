@@ -7,9 +7,10 @@ from typing import Callable
 from .node import Node
 
 
-class PriorityQueue(): 
-    """First pops the node with the minimum cost according to some 
+class PriorityQueue:
+    """First pops the node with the minimum cost according to some
     evaluation function."""
+
     _frontier: deque[Node]
 
     def __init__(self, f: Callable[[Node], float]) -> None:
@@ -29,7 +30,7 @@ class PriorityQueue():
         """Removes the top node from the frontier and returns it.
 
         Returns:
-            Node | None: top node from the frontier if the queue 
+            Node | None: top node from the frontier if the queue
                 is not empty, else None.
         """
         if not self.is_empty():
@@ -39,9 +40,9 @@ class PriorityQueue():
 
     def top(self) -> Node | None:
         """Returns (but does not remove) the top node of the frontier.
-        
+
         Returns:
-            Node | None: top node from the frontier if the queue 
+            Node | None: top node from the frontier if the queue
                 is not empty, else None.
         """
         if not self.is_empty():

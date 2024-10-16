@@ -9,8 +9,8 @@ from ..data_structures import Node, Problem
 
 def iterative_deepening_search(problem: Problem) -> Node | None:
     """Expands the root node, the next child, repeating this process
-    until with depth limit l in [0, 1, 2, ...,], then backtracking to 
-    the next successor of the root. This process is repeated until a 
+    until with depth limit l in [0, 1, 2, ...,], then backtracking to
+    the next successor of the root. This process is repeated until a
     goal is found or failure occurs.
 
     Args:

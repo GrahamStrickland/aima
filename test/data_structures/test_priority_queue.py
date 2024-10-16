@@ -10,6 +10,7 @@ def f(node: Node) -> float:
 
 class TestPriorityQueue:
     """Test suite for PriorityQueue data structure."""
+
     _queue = PriorityQueue(f)
 
     def test_init(self) -> None:
@@ -36,7 +37,7 @@ class TestPriorityQueue:
 
         assert self._queue.is_empty()
 
-    def test_top(self) -> None: 
+    def test_top(self) -> None:
         assert self._queue.top() == None
 
         A = Node(state={}, parent=None, action="None", path_cost=0)
@@ -70,4 +71,3 @@ class TestPriorityQueue:
         self._queue.add(B)
 
         assert self._queue.top() == A
-

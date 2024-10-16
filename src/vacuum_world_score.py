@@ -9,16 +9,19 @@ def main():
     print("Exercise 12: Simple Reflex Agent Scoring\n")
 
     agent = SimpleReflexAgent()
-    task_environment = Environment('VacuumWorld', {'A': 'Dirty', 'B': 'Dirty'})
-    states: list[str] = ['Dirty', 'Clean']
-    locations: list[str] = ['A', 'B']
+    task_environment = Environment("VacuumWorld", {"A": "Dirty", "B": "Dirty"})
+    states: list[str] = ["Dirty", "Clean"]
+    locations: list[str] = ["A", "B"]
     task_environments: list[Environment] = [
-        deepcopy(task_environment) for _ in range(len(states)**2 * len(locations))
+        deepcopy(task_environment) for _ in range(len(states) ** 2 * len(locations))
     ]
     scores: list[int] = []
 
     for i in range(1, len(task_environments)):
-        task_environments[i].state = {'A': states[(i//2) >> 1], 'B': states[(i//2) & 1]}
+        task_environments[i].state = {
+            "A": states[(i // 2) >> 1],
+            "B": states[(i // 2) & 1],
+        }
 
     i = 0
     for task_environment in task_environments:
@@ -30,16 +33,16 @@ def main():
         print(f"Starting task environment: {task_environment.state}")
         print(f"Agent start location: {location}")
 
-        while task_environment.state != {'A': 'Clean', 'B': 'Clean'}:
+        while task_environment.state != {"A": "Clean", "B": "Clean"}:
             action: str = agent.get_action(location_status)
             num_turns += 1
 
-            if action == 'Suck':
-                task_environment.state[location] = 'Clean'
-            elif action == 'Right':
-                location = 'B'
-            elif action == 'Left':
-                location = 'A'
+            if action == "Suck":
+                task_environment.state[location] = "Clean"
+            elif action == "Right":
+                location = "B"
+            elif action == "Left":
+                location = "A"
             else:
                 raise SyntaxError("Invalid action string passed to agent.")
 
@@ -54,5 +57,5 @@ def main():
     print("Overall average score: ", sum(scores) / len(scores))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

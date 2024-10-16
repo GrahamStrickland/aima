@@ -7,4 +7,4 @@ class Actuator:
         self.value = value
 
     def __str__(self):
-        return 'Actuator: {} = {}'.format(self.name, self.value)
+        return "Actuator: {} = {}".format(self.name, self.value)

@@ -6,7 +6,7 @@ from ..data_structures import Node, Problem
 
 
 def uniform_cost_search(problem: Problem) -> Node | None:
-    """Expands the root node, then choose the successor with least Path-Cost, 
+    """Expands the root node, then choose the successor with least Path-Cost,
     repeating this process until a goal is found or failure occurs.
 
     Args:

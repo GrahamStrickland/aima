@@ -12,7 +12,7 @@ class TestProblem:
         exp = "Arad"
         obs = problem.initial()
 
-        assert obs == exp 
+        assert obs == exp
 
         exp = "Zerind"
         obs = problem.initial()

@@ -9,7 +9,7 @@ from .expand import expand
 
 def best_first_search(problem: Problem, f: Callable) -> Node | None:
     """On each iteration choose a node on the frontier with minimum f(n) value,
-    return it if its state is a goal state, and otherwise apply expand() to 
+    return it if its state is a goal state, and otherwise apply expand() to
     generate child nodes.
 
     Args:
@@ -28,7 +28,7 @@ def best_first_search(problem: Problem, f: Callable) -> Node | None:
         node: Node = frontier.pop()
         if problem.is_goal(node.state):
             return node
-        
+
         for child in expand(problem, node):
             s: str = child.state
             if s not in reached.keys():

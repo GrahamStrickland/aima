@@ -24,14 +24,24 @@ def terminated(
 def join_nodes(dir: Direction, node_f: Node, node_b: Node) -> Node:
     if dir == Direction.F:
         while node_b.parent is not None:
-            node = Node(state=node_b.state, path_cost=node_b.path_cost, parent=node_f, action=("To" + node_b.state))
+            node = Node(
+                state=node_b.state,
+                path_cost=node_b.path_cost,
+                parent=node_f,
+                action=("To" + node_b.state),
+            )
             node_f = node
             node_b = node_b.parent
 
         return node_b
     else:
         while node_f.parent is not None:
-            node = Node(state=node_f.state, path_cost=node_f.path_cost, parent=node_b, action=("To" + node_f.state))
+            node = Node(
+                state=node_f.state,
+                path_cost=node_f.path_cost,
+                parent=node_b,
+                action=("To" + node_f.state),
+            )
             node_b = node
             node_f = node_f.parent
 
@@ -39,11 +49,16 @@ def join_nodes(dir: Direction, node_f: Node, node_b: Node) -> Node:
 
 
 def proceed(
-    dir: Direction, problem: Problem, frontier: PriorityQueue, reached: dict[str, Node],
-    reached2: dict[str, Node], solution: Node | None) -> Node | None:
+    dir: Direction,
+    problem: Problem,
+    frontier: PriorityQueue,
+    reached: dict[str, Node],
+    reached2: dict[str, Node],
+    solution: Node | None,
+) -> Node | None:
     """Expand node on frontier; check against the other frontier in reached2.
-    
-    Args: 
+
+    Args:
         dir: The direction: either 'F' for forward or 'B' for backward.
     """
     node = frontier.pop()
@@ -65,7 +80,7 @@ def proceed(
 def bibf_search(
     problem_f: Problem, ff: Callable, problem_b: Problem, fb: Callable
 ) -> Node | None:
-    """Keeps two frontiers and two tables of reached states, joining the two 
+    """Keeps two frontiers and two tables of reached states, joining the two
     frontiers once the same state has been reached in both to yield a solution.
 
     Args:
@@ -97,21 +112,21 @@ def bibf_search(
     ):
         if ff(frontier_f.top()) < fb(frontier_b.top()):
             solution = proceed(
-                dir=Direction.F, 
-                problem=problem_f, 
-                frontier=frontier_f, 
-                reached=reached_f, 
-                reached2=reached_b, 
-                solution=solution
+                dir=Direction.F,
+                problem=problem_f,
+                frontier=frontier_f,
+                reached=reached_f,
+                reached2=reached_b,
+                solution=solution,
             )
         else:
             solution = proceed(
-                dir=Direction.B, 
-                problem=problem_b, 
-                frontier=frontier_b, 
-                reached=reached_b, 
-                reached2=reached_f, 
-                solution=solution
+                dir=Direction.B,
+                problem=problem_b,
+                frontier=frontier_b,
+                reached=reached_b,
+                reached2=reached_f,
+                solution=solution,
             )
 
     return solution

@@ -7,4 +7,4 @@ class Environment:
         self.state = state
 
     def __str__(self):
-        return 'Environment: {} = {}'.format(self.name, self.state)
+        return "Environment: {} = {}".format(self.name, self.state)

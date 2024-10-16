@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Unit tests for Depth-Limited-Search algorithm."""
 
-from src.algorithms import depth, depth_limited_search, is_cycle 
+from src.algorithms import depth, depth_limited_search, is_cycle
 from src.data_structures import Node, Problem
 
 

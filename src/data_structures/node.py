@@ -18,7 +18,7 @@ class Node:
                    state to this node.
     """
 
-    state: str 
+    state: str
     path_cost: float
     parent: Node | None = None
     action: str | None = None
