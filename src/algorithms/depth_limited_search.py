@@ -47,7 +47,7 @@ def is_cycle(node: Node) -> bool:
     return False
 
 
-def depth_limited_search(problem: Problem, l: int) -> Node | str | None:
+def depth_limited_search(problem: Problem, l_depth: int) -> Node | str | None:
     """Expands the root node, the next child, repeating this process
     until the depth limit is reached, then backtracking to the next
     successor of the root. This process is repeated until a goal is
@@ -70,7 +70,7 @@ def depth_limited_search(problem: Problem, l: int) -> Node | str | None:
         if problem.is_goal(node.state):
             return node
 
-        if depth(node) > l:
+        if depth(node) > l_depth:
             result = "cutoff"
         elif not is_cycle(node):
             for child in expand(problem, node):

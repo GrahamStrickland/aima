@@ -38,7 +38,7 @@ class TestPriorityQueue:
         assert self._queue.is_empty()
 
     def test_top(self) -> None:
-        assert self._queue.top() == None
+        assert self._queue.top() is None
 
         A = Node(state={}, parent=None, action="None", path_cost=0)
         self._queue.add(A)
@@ -52,13 +52,13 @@ class TestPriorityQueue:
 
     def test_add(self) -> None:
         while not self._queue.is_empty():
-            node = self._queue.pop()
+            _ = self._queue.pop()
 
         A = Node(state={}, parent=None, action="None", path_cost=0)
         B = Node(state={}, parent=None, action="None", path_cost=1)
         C = Node(state={}, parent=None, action="None", path_cost=2)
 
-        assert self._queue.top() == None
+        assert self._queue.top() is None
 
         self._queue.add(C)
 
