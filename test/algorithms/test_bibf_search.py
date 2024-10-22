@@ -13,6 +13,7 @@ def test_bibf_search(problem: Problem, problem_b: Problem) -> None:
         fb=lambda node: node.path_cost,
     )
 
+    assert solution is not None
     assert solution.state == "Bucharest"
     assert solution.parent.state == "Fagaras"
     assert solution.parent.parent.state == "Sibiu"

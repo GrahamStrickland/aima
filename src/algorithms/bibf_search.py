@@ -18,34 +18,57 @@ def terminated(
 ) -> bool:
     """Test to prove that there is no possible better solution remaining."""
 
-    return solution == frontier_f.top() and solution == frontier_b.top()
+    return (
+        solution is not None
+        and solution.state == "Bucharest"
+        and solution == frontier_f.top()
+        and solution == frontier_b.top()
+    )
 
 
 def join_nodes(dir: Direction, node_f: Node, node_b: Node) -> Node:
     if dir == Direction.F:
         while node_b.parent is not None:
-            node = Node(
-                state=node_b.state,
-                path_cost=node_b.path_cost,
-                parent=node_f,
-                action=("To" + node_b.state),
-            )
+            if node_b.state == node_f.state:
+                node = Node(
+                    state=node_b.parent.state,
+                    path_cost=node_b.parent.path_cost,
+                    parent=node_f,
+                    action=("To" + node_b.parent.state)
+                )
+            else:
+                node = Node(
+                    state=node_b.state,
+                    path_cost=node_b.path_cost,
+                    parent=node_f,
+                    action=("To" + node_b.state),
+                )
+
             node_f = node
             node_b = node_b.parent
 
-        return node_b
+        return node_f
     else:
         while node_f.parent is not None:
-            node = Node(
-                state=node_f.state,
-                path_cost=node_f.path_cost,
-                parent=node_b,
-                action=("To" + node_f.state),
-            )
+            if node_b.state == node_f.state:
+                node = Node(
+                    state=node_f.parent.state,
+                    path_cost=node_f.parent.path_cost,
+                    parent=node_b,
+                    action=("To" + node_f.parent.state)
+                )
+            else:
+                node = Node(
+                    state=node_f.state,
+                    path_cost=node_f.path_cost,
+                    parent=node_b,
+                    action=("To" + node_f.state),
+                )
+
             node_b = node
             node_f = node_f.parent
 
-        return node_f
+        return node_b
 
 
 def proceed(
@@ -71,7 +94,7 @@ def proceed(
 
             if s in reached2:
                 solution2: Node = join_nodes(dir, child, reached2[s])
-                if solution2.path_cost < solution.path_cost:
+                if solution is None or solution2.path_cost < solution.path_cost:
                     solution = solution2
 
     return solution
@@ -110,6 +133,9 @@ def bibf_search(
     while not terminated(
         solution=solution, frontier_f=frontier_f, frontier_b=frontier_b
     ):
+        if frontier_f.is_empty() or frontier_b.is_empty():
+            return solution
+
         if ff(frontier_f.top()) < fb(frontier_b.top()):
             solution = proceed(
                 dir=Direction.F,
