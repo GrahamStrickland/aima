@@ -16,9 +16,12 @@ class Node:
                 state to generate this node.
         path_cost: A float representing the total cost of the path from the initial
                    state to this node.
+        f: Optional integer value representing the current f-value of the node,
+           where f is some evaluation function.
     """
 
     state: str
     path_cost: float
     parent: Node | None = None
     action: str | None = None
+    f: int | None = None
