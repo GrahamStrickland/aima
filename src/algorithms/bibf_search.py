@@ -34,7 +34,7 @@ def join_nodes(dir: Direction, node_f: Node, node_b: Node) -> Node:
                     state=node_b.parent.state,
                     path_cost=node_b.parent.path_cost,
                     parent=node_f,
-                    action=("To" + node_b.parent.state)
+                    action=("To" + node_b.parent.state),
                 )
             else:
                 node = Node(
@@ -55,7 +55,7 @@ def join_nodes(dir: Direction, node_f: Node, node_b: Node) -> Node:
                     state=node_f.parent.state,
                     path_cost=node_f.parent.path_cost,
                     parent=node_b,
-                    action=("To" + node_f.parent.state)
+                    action=("To" + node_f.parent.state),
                 )
             else:
                 node = Node(
@@ -88,13 +88,17 @@ def proceed(
 
     for child in expand(problem=problem, node=node):
         s = child.state
-        if s not in reached or child.path_cost < reached[s].path_cost:
+        if s not in reached or (
+            child.path_cost < reached[s].path_cost and child.path_cost > 0
+        ):
             reached[s] = child
             frontier.add(child)
 
             if s in reached2:
                 solution2: Node = join_nodes(dir, child, reached2[s])
-                if solution is None or solution2.path_cost < solution.path_cost:
+                if solution is None or (
+                    solution2.path_cost < solution.path_cost and solution2.path_cost > 0
+                ):
                     solution = solution2
 
     return solution
