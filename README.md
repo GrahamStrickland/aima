@@ -1,6 +1,6 @@
 # aima
 
-Implementation of the programming exercises from "Artificial Intelligence: A Modern Approach" (4e) - Stuart J. Russell & Peter Norvig using Python 3.12
+Implementation of the programming exercises from "Artificial Intelligence: A Modern Approach" (4e) - Stuart J. Russell & Peter Norvig using Python 3.13
 
 Please see book website for exercises: <https://aimacode.github.io/aima-exercises>
 
