@@ -20,17 +20,12 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v3
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v4
         with:
-          python-version: "3.12"
+          version: "latest"
+          enable-cache: true
       - name: Install dependencies
-        run: |
-          python3.12 -m venv .venv
-          source .venv/bin/activate
-          python3.12 -m pip install --upgrade pip
-          python3.12 -m pip install pytest
+        run: uv python install 3.13
       - name: Test with pytest
-        run: |
-          source .venv/bin/activate
-          python3.12 -m pytest
+        run: uv run --frozen pytest
