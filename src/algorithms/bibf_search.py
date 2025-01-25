@@ -4,8 +4,8 @@
 from enum import Enum
 from typing import Callable
 
-from .expand import expand
 from ..data_structures import Node, PriorityQueue, Problem
+from .expand import expand
 
 
 class Direction(Enum):

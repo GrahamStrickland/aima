@@ -3,8 +3,8 @@
 
 from queue import LifoQueue
 
-from .expand import expand
 from ..data_structures import Node, Problem
+from .expand import expand
 
 
 def depth(node: Node) -> int:

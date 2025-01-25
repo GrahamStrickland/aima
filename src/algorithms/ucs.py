@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Uniform-Cost-Search algorithm."""
 
-from .best_first_search import best_first_search
 from ..data_structures import Node, Problem
+from .best_first_search import best_first_search
 
 
 def uniform_cost_search(problem: Problem) -> Node | None:

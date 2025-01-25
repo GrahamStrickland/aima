@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Unit tests for Best-First-Search algorithm."""
 
-from src.algorithms import expand, best_first_search
+from src.algorithms import best_first_search, expand
 from src.data_structures import Node, Problem
 
 

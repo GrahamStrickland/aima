@@ -3,8 +3,8 @@
 
 from sys import maxsize
 
-from .depth_limited_search import depth_limited_search
 from ..data_structures import Node, Problem
+from .depth_limited_search import depth_limited_search
 
 
 def iterative_deepening_search(problem: Problem) -> Node | None:

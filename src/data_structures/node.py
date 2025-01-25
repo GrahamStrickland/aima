@@ -2,6 +2,7 @@
 """Node class for search problems."""
 
 from __future__ import annotations
+
 from dataclasses import dataclass
 
 

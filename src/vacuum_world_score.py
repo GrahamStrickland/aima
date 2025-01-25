@@ -29,7 +29,7 @@ def main():
         location = locations[i % 2]
 
         location_status = Sensor(name=location, value=task_environment.state[location])
-        print(f"Simulation {i+1}")
+        print(f"Simulation {i + 1}")
         print(f"Starting task environment: {task_environment.state}")
         print(f"Agent start location: {location}")
 
