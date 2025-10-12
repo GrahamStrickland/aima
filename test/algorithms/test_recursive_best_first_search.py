@@ -17,7 +17,7 @@ def hsld(node: Node, sld: dict[str, int]):
 class TestRecursiveBestFirstSearch:
     def test_recursive_best_first_search(
         self, problem: Problem, sld: dict[str, int]
-    ) -> None:
+    ):
         solution = recursive_best_first_search(problem, partial(hsld, sld=sld))
 
         assert solution.state == "Bucharest"

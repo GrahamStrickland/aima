@@ -5,7 +5,7 @@ from src.algorithms import uniform_cost_search
 from src.data_structures import Problem
 
 
-def test_uniform_cost_search(problem: Problem) -> None:
+def test_uniform_cost_search(problem: Problem):
     solution = uniform_cost_search(problem)
 
     assert solution.state == "Bucharest"

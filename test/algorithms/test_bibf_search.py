@@ -5,7 +5,7 @@ from src.algorithms import bibf_search
 from src.data_structures import Problem
 
 
-def test_bibf_search(problem: Problem, problem_b: Problem) -> None:
+def test_bibf_search(problem: Problem, problem_b: Problem):
     solution = bibf_search(
         problem_f=problem,
         ff=lambda node: node.path_cost,

@@ -35,7 +35,7 @@ class ModelBasedReflexAgent:
     def get_points(self) -> int:
         return self._state["Points"]
 
-    def _update_state(self, percept: Sensor) -> None:
+    def _update_state(self, percept: Sensor):
         self._sensor_model = percept
 
         if (
@@ -78,7 +78,7 @@ class ModelBasedReflexAgent:
 
         raise IndexError("Incorrect row and column reference")
 
-    def _rule_match(self) -> None:
+    def _rule_match(self):
         curr = self._state["Current"]
         state = self._state["Environment"].state
         action = self._rules[state[curr]]

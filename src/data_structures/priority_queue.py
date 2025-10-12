@@ -13,7 +13,7 @@ class PriorityQueue:
 
     _frontier: deque[Node]
 
-    def __init__(self, f: Callable[[Node], float]) -> None:
+    def __init__(self, f: Callable[[Node], float]):
         """Initialises a priority queue ordered by f
 
         Args:
@@ -50,7 +50,7 @@ class PriorityQueue:
         else:
             return None
 
-    def add(self, node: Node) -> None:
+    def add(self, node: Node):
         """Inserts node into its proper place in the queue.
 
         Args:

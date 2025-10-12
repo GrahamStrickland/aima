@@ -5,7 +5,7 @@ from src.algorithms import breadth_first_search
 from src.data_structures import Problem
 
 
-def test_breadth_first_search(problem: Problem) -> None:
+def test_breadth_first_search(problem: Problem):
     solution = breadth_first_search(problem)
 
     assert solution.state == "Bucharest"

@@ -5,7 +5,7 @@ from src.agents import reflex_vacuum_agent
 from src.data_structures import Environment, Sensor
 
 
-def test_vacuum_world() -> None:
+def test_vacuum_world():
     task_environment = Environment("VacuumWorld", {"A": "Clean", "B": "Clean"})
     location: str = "A"
     location_status = Sensor(name=location, value=task_environment.state[location])
@@ -30,7 +30,7 @@ def test_vacuum_world() -> None:
     assert obs == exp
 
 
-def test_vacuum_world2() -> None:
+def test_vacuum_world2():
     task_environment = Environment("VacuumWorld", {"A": "Dirty", "B": "Clean"})
     location: str = "A"
     location_status = Sensor(name=location, value=task_environment.state[location])
@@ -55,7 +55,7 @@ def test_vacuum_world2() -> None:
     assert obs == exp
 
 
-def test_vacuum_world3() -> None:
+def test_vacuum_world3():
     task_environment = Environment("VacuumWorld", {"A": "Clean", "B": "Dirty"})
     location: str = "A"
     location_status = Sensor(name=location, value=task_environment.state[location])
@@ -84,7 +84,7 @@ def test_vacuum_world3() -> None:
     assert obs == exp
 
 
-def test_vacuum_world4() -> None:
+def test_vacuum_world4():
     task_environment = Environment("VacuumWorld", {"A": "Dirty", "B": "Dirty"})
     location: str = "A"
     location_status = Sensor(name=location, value=task_environment.state[location])

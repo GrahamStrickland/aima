@@ -5,7 +5,7 @@ from src.algorithms import iterative_deepening_search
 from src.data_structures import Problem
 
 
-def test_iterative_deepening_search(problem: Problem) -> None:
+def test_iterative_deepening_search(problem: Problem):
     solution = iterative_deepening_search(problem)
 
     assert solution.state == "Bucharest"

@@ -6,7 +6,7 @@ from src.data_structures import Node, Problem
 
 
 class TestBestFirstSearch:
-    def test_expand(self, problem: Problem) -> None:
+    def test_expand(self, problem: Problem):
         for node in expand(
             problem, Node("Arad", parent=None, action=None, path_cost=0)
         ):
@@ -17,7 +17,7 @@ class TestBestFirstSearch:
             if node.parent is not None and node.parent == "Arad":
                 assert node.state in {"Sibiu", "Timisoara", "Zerind"}
 
-    def test_best_first_search(self, problem: Problem) -> None:
+    def test_best_first_search(self, problem: Problem):
         solution = best_first_search(problem, lambda node: node.path_cost)
 
         assert solution.state == "Bucharest"
